@@ -1186,7 +1186,7 @@ function getBalance($conn, $patID) {
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   $row = mysqli_fetch_assoc($result);
-  $balance = $row["amount"];
+  $balance = $row["SUM(amount)"];
   return $balance;
 }
 
