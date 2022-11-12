@@ -1176,7 +1176,7 @@ function getReceptionistID($conn, $userID) {
 function getBalance($conn, $patID) {
   $patID = intval($patID);
   $balance = 0;
-  $sql = "SELECT SUM(amount) FROM Transaction WHERE patient_ID = ?;";
+  $sql = "SELECT SUM(amount) FROM Transaction WHERE patient_ID = ? AND payment_ID is NULL;";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=getbalstmtfailed");
