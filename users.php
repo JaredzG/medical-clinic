@@ -14,8 +14,8 @@
   <h2>Choose a User</h2>
   <?php
     while ($row = mysqli_fetch_assoc($result)) {
-      $userRole = $row["user_role"];
       $userID = $row["user_ID"];
+      $userRole = $row["user_role"];
       $result2 = getUserInfo($conn, $userID, $userRole);
       if ($result2 !== 'admin') {
         $row2 = mysqli_fetch_assoc($result2);

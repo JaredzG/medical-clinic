@@ -138,8 +138,14 @@ if (!mysqli_stmt_prepare($stmt4, $sql4)) {
 }
 mysqli_stmt_bind_param($stmt4, "sssssi", $streetAdd, $aptNum, $city, $state, $zip, $row["address_ID"]);
 mysqli_stmt_execute($stmt4);
-header("location: ../viewinfo.php?");
-exit();
+if ($_SESSION["userRole"] === 'admin') {
+  header("location: ../users.php");
+  exit();
+}
+else if ($_SESSION["userRole"] === 'patient') {
+  header("location: ../settings.php");
+  exit();
+}
 }
 else {
   require_once 'dbh.inc.php';
