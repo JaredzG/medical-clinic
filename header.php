@@ -37,6 +37,9 @@
                 echo "<li><a href='referrals.php'>Referrals</a></li>";
                 echo "<li><a href='patients.php'>Patients</a></li>";
               }
+              else if ($_SESSION["userRole"] === 'nurse') {
+                echo "<li><a href='settings.php'>Settings</a></li>";
+              }
               else if ($_SESSION["userRole"] === 'receptionist') {
                   echo "<li><a href='settings.php'>Settings</a></li>";
                   echo "<li><a href='patients.php'>Patients</a></li>";
