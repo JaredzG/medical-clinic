@@ -82,9 +82,9 @@
           echo '<tr>';
           echo '<th>User ID</th>';
           echo '<th>Username</th>';
+          echo '<th>User Role</th>';
           echo '<th>Phone Number</th>';
           echo '<th>Email Address</th>';
-          echo '<th>Address ID</th>';
           echo '</tr>';
           echo '<tr>';
           echo '<td>'.$row["user_ID"].'</td>';

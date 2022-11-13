@@ -38,13 +38,16 @@
             <input style='display: none;' name='userID' value='none'/>
           </div>
           <div class='form-element'>
-            <input style='display: none;' name='userRole' value='<none'/>
+            <input style='display: none;' name='userRole' value='none'/>
           </div>
           <div class='form-element'>
             <input style='display: none;' name='otherID' value='<?php echo $depnum?>'/>
           </div>
           <div class='form-element'>
             <input style='display: none;' name='otherRole' value='department'/>
+          </div>
+          <div class='form-element'>
+            <input style='display: none;' name='senderRole' value='admin'/>
           </div>
           <div class='submit-btn'>
             <button type='submit' name='submit'>Delete</button>

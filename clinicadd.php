@@ -131,6 +131,9 @@
           <div class='form-element'>
             <input style='display: none;' name='otherRole' value='clinic'/>
           </div>
+          <div class='form-element'>
+            <input style='display: none;' name='senderRole' value='admin'/>
+          </div>
           <div class='submit-btn'>
             <button type='submit' name='submit'>Delete</button>
           </div>
