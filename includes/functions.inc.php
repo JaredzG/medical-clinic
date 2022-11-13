@@ -570,7 +570,7 @@ function createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $apt
 
 function docToOffice($conn, $docUserID) {
   $docUserID = intval($docUserID);
-  $sql = 'SELECT doc_ID, dep_num FROM Doctor WHERE doc_user = ?;';
+  $sql = 'SELECT doc_ID, dep_num FROM Doctor WHERE doc_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: ../empinfo.php?error=docstmtfailed");
@@ -583,7 +583,7 @@ function docToOffice($conn, $docUserID) {
   $docID = intval($row["doc_ID"]);
   $deptNum = intval($row["dep_num"]);
 
-  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ?;';
+  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ? AND deleted_flag = false;';
   $stmt2 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt2, $sql2)) {
     header("location: ../empinfo.php?error=offstmtfailed");
@@ -607,7 +607,7 @@ function docToOffice($conn, $docUserID) {
 
 function NurseToDoctorAndOffice($conn, $nurseUserID) {
   $nurseUserID = intval($nurseUserID);
-  $sql = 'SELECT nurse_ID, dep_num FROM Nurse WHERE nurse_user = ?;';
+  $sql = 'SELECT nurse_ID, dep_num FROM Nurse WHERE nurse_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: ../empinfo.php?error=nurstmtfailed");
@@ -641,7 +641,7 @@ function NurseToDoctorAndOffice($conn, $nurseUserID) {
   mysqli_stmt_bind_param($stmt3, "ii", $offID, $nurseID);
   mysqli_stmt_execute($stmt3);
 
-  $sql4 = 'SELECT doc_ID FROM Doctor WHERE dep_num = ?;';
+  $sql4 = 'SELECT doc_ID FROM Doctor WHERE dep_num = ? AND deleted_flag = false;';
   $stmt4 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt4, $sql4)) {
     header("location: ../empinfo.php?error=nurdocstmtfailed");

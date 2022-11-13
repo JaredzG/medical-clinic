@@ -2,7 +2,12 @@
 session_start();
 if (isset($_POST["submit"])) {
   $fname = $_POST["fname"];
-  $mname = $_POST["mname"];
+  if ($_POST["mname"] !== '') {
+    $mname = $_POST["mname"];
+  }
+  else {
+    $mname = NULL;
+  }
   $lname = $_POST["lname"];
   $ssn = $_POST["ssn"];
   $sex = $_POST["sex"];
@@ -10,7 +15,12 @@ if (isset($_POST["submit"])) {
   $ethnicity = $_POST["ethnicity"];
   $race = $_POST["race"];
   $streetAdd = $_POST["street-add"];
-  $aptNum = $_POST["apt-num"];
+  if ($_POST["apt-num"] !== '') {
+    $aptNum = $_POST["apt-num"];
+  }
+  else {
+    $aptNum = NULL;
+  }
   $city = $_POST["city"];
   $state = $_POST["state"];
   $zip = $_POST["zip"];

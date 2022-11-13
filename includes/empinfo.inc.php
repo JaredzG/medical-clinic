@@ -2,21 +2,34 @@
 session_start();
 if (isset($_POST["submit"])) {
   $fname = $_POST["fname"];
-  $mname = $_POST["mname"];
+  if ($_POST["mname"] !== '') {
+    $mname = $_POST["mname"];
+  }
+  else {
+    $mname = NULL;
+  }
   $lname = $_POST["lname"];
   $ssn = $_POST["ssn"];
   $sex = $_POST["sex"];
   $bdate = $_POST["bdate"];
   $streetAdd = $_POST["street-add"];
-  $aptNum = $_POST["apt-num"];
+  if ($_POST["apt-num"] !== '') {
+    $aptNum = $_POST["apt-num"];
+  }
+  else {
+    $aptNum = NULL;
+  }
   $city = $_POST["city"];
   $state = $_POST["state"];
   $zip = $_POST["zip"];
   $deptNum = $_POST["num"];
   if ($_SESSION["newuserRole"] === 'doctor') {
-    $specialty = $_POST["specialty"];
-    $credentials = $_POST["credentials"];
-    $primary = $_POST["primary"];
+    if ($_POST["credentials"] !== '') {
+      $aptNum = $_POST["credentials"];
+    }
+    else {
+      $credentials = NULL;
+    }
   }
   else if ($_SESSION["newuserRole"] === 'nurse') {
     $registered = $_POST["registered"];
