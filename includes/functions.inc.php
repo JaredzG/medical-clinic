@@ -476,7 +476,7 @@ function createEmpUser($conn, $email, $phonenum, $username, $password, $role) {
   exit();
 }
 
-function createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $credentials) {
+function createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $credentials, $clinic) {
   $row = addressExists($conn, $streetAdd, $aptNum, $city, $state, $zip);
   
   if (!$row) {
@@ -516,13 +516,13 @@ function createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $ap
   } 
   mysqli_stmt_bind_param($stmt3, "iisssissi", $ssn, $deptNum, $fname, $mname, $lname, $row["address_ID"], $credentials, $sex, $_SESSION["newuserID"]);
   mysqli_stmt_execute($stmt3);
-  docToOffice($conn, $_SESSION["newuserID"]);
+  docToOffice($conn, $_SESSION["newuserID"], $clinic);
   $_SESSION["fname"] = 'admin';
   header("location: ../index.php");
   exit();
 }
 
-function createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $registered) {
+function createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $registered, $clinic) {
   $row = addressExists($conn, $streetAdd, $aptNum, $city, $state, $zip);
   
   if (!$row) {
@@ -562,13 +562,13 @@ function createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $apt
   } 
   mysqli_stmt_bind_param($stmt3, "iissssiii", $ssn, $deptNum, $fname, $mname, $lname, $sex, $_SESSION["newuserID"], $registered, $row["address_ID"]);
   mysqli_stmt_execute($stmt3);
-  NurseToDoctorAndOffice($conn, $_SESSION["newuserID"]);
+  NurseToDoctorAndOffice($conn, $_SESSION["newuserID"], $clinic);
   $_SESSION["fname"] = 'admin';
   header("location: ../index.php");
   exit();
 }
 
-function docToOffice($conn, $docUserID) {
+function docToOffice($conn, $docUserID, $clinic) {
   $docUserID = intval($docUserID);
   $sql = 'SELECT doc_ID, dep_num FROM Doctor WHERE doc_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
@@ -583,13 +583,13 @@ function docToOffice($conn, $docUserID) {
   $docID = intval($row["doc_ID"]);
   $deptNum = intval($row["dep_num"]);
 
-  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ? AND deleted_flag = false;';
+  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ? AND address_ID = ? AND deleted_flag = false;';
   $stmt2 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt2, $sql2)) {
     header("location: ../empinfo.php?error=offstmtfailed");
     exit();
   } 
-  mysqli_stmt_bind_param($stmt2, "i", $deptNum);
+  mysqli_stmt_bind_param($stmt2, "ii", $deptNum, $clinic);
   mysqli_stmt_execute($stmt2);
   $result2 = mysqli_stmt_get_result($stmt2);
   $row2 = mysqli_fetch_assoc($result2);
@@ -605,7 +605,7 @@ function docToOffice($conn, $docUserID) {
   mysqli_stmt_execute($stmt3);
 }
 
-function NurseToDoctorAndOffice($conn, $nurseUserID) {
+function NurseToDoctorAndOffice($conn, $nurseUserID, $clinic) {
   $nurseUserID = intval($nurseUserID);
   $sql = 'SELECT nurse_ID, dep_num FROM Nurse WHERE nurse_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
@@ -620,13 +620,13 @@ function NurseToDoctorAndOffice($conn, $nurseUserID) {
   $nurseID = intval($row["nurse_ID"]);
   $deptNum = intval($row["dep_num"]);
 
-  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ? AND deleted_flag = false;';
+  $sql2 = 'SELECT office_ID FROM Office WHERE dep_number = ? AND address_ID = ? AND deleted_flag = false;';
   $stmt2 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt2, $sql2)) {
     header("location: ../empinfo.php?error=offstmtfailed");
     exit();
   } 
-  mysqli_stmt_bind_param($stmt2, "i", $deptNum);
+  mysqli_stmt_bind_param($stmt2, "ii", $deptNum, $clinic);
   mysqli_stmt_execute($stmt2);
   $result2 = mysqli_stmt_get_result($stmt2);
   $row2 = mysqli_fetch_assoc($result2);
@@ -1602,6 +1602,24 @@ function getUserInfo($conn, $userID, $userRole) {
   }
 }
 
+function getPreferredClinic($conn, $userRole, $roleID) {
+  if ($userRole === 'doctor') {
+    $sql = "SELECT office_ID FROM Doctor_Works_In_Office WHERE doctor_ID = ? AND deleted_flag = false;";
+  }
+  else if ($userRole === 'nurse') {
+    $sql = "SELECT office_ID FROM Nurse_Works_In_Office WHERE nurse_ID = ? AND deleted_flag = false;";
+  }
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location: updateinfo.php?error=getclinicaddfailed");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "i", $roleID);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  return $result;
+}
+
 function getClinicAddressOfPrimaryDoctor($conn, $primDoc) {
   $sql = "SELECT * FROM Doctor_Works_In_Office WHERE doctor_ID = ? AND deleted_flag = false;";
   $stmt = mysqli_stmt_init($conn);
@@ -1698,6 +1716,11 @@ function getFeature($conn, $featureID, $featureRole) {
     $result = mysqli_stmt_get_result($stmt);
     return $result;
   }
+}
+
+function deleteEntity($conn, $role, $id) {
+  $sqlcounter = 1;
+
 }
 
 /*****************DEBUGGING HELPER*****************/

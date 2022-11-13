@@ -45,6 +45,7 @@
         mysqli_stmt_execute($stmt2);
         $result2 = mysqli_stmt_get_result($stmt2);
         $row2 = mysqli_fetch_assoc($result2);
+        $roleID = $row2["doc_ID"];
         break;
       case 'nurse':
         $sql2 = "SELECT * FROM Nurse WHERE nurse_user = ? AND deleted_flag = false;";
@@ -57,6 +58,7 @@
         mysqli_stmt_execute($stmt2);
         $result2 = mysqli_stmt_get_result($stmt2);
         $row2 = mysqli_fetch_assoc($result2);
+        $roleID = $row2["nurse_ID"];
         break;
       case 'receptionist':
         $sql2 = "SELECT * FROM Receptionist WHERE pat_user = ? AND deleted_flag = false;";
@@ -69,6 +71,7 @@
         mysqli_stmt_execute($stmt2);
         $result2 = mysqli_stmt_get_result($stmt2);
         $row2 = mysqli_fetch_assoc($result2);
+        $roleID = $row2["rec_ID"];
         break;
     }
     $fname = $row2["f_name"];
@@ -235,13 +238,53 @@
   </div>
   <?php
     }
-    else if ($userRole === 'doctor') {
+    else if ($userRole === 'doctor' || $userRole === 'nurse') {
   ?>
-  <div class='form-element'>
+   <div class='form-element'>
+        <label for='clinic'>Preferred Clinic Location</label>
+        <select name='clinic' id='clinic' required>
+          <option>Select</option>
+      <?php
+        $result = viewClinicLocations($conn);
+        $result2 = getPreferredClinic($conn, $userRole, $roleID);
+        $clinic = mysqli_fetch_assoc($result2);
+        while ($row = mysqli_fetch_assoc($result)) {
+          $addID = $row["address_ID"];
+          $streetAdd = $row["street_address"];
+          $city = $row["city"];
+          $state = $row["state"];
+          $zip = $row["zip_code"];
+      ?>
+        <option value='<?php echo $addID; ?>'<?php if ( !is_null($clinic) && $clinic["office_ID"] === $addID) echo ' selected';?>><?php echo $streetAdd.' '.$city.', '.$state.' '.$zip ?></option>
+      <?php
+        }
+      ?>
+        </select>
+      </div>
+   <div class='form-element'>
+    <label for='num'>Select a Department</label>
+      <select name='num' id='num'>
+        <option>Select</option>
+      <?php
+        $result = viewDepartments($conn);
+        while ($row = mysqli_fetch_assoc($result)) {
+          $depnum = $row["department_number"];
+          $depname = $row["dep_name"];
+      ?>
+        <option value='<?php echo $depnum; ?>'<?php if ( !is_null($row2) && $row2["dep_num"] === $depnum) echo ' selected';?>><?php echo $depnum.': '.$depname ?></option>
+      <?php
+        }
+      ?>
+      </select>
+    </div>
+    <?php
+      if ($userRole === 'doctor') {
+    ?>
     <label for='credentials'>Credentials</label>
     <textarea style='display: block;' name='credentials' id='credentials' rows='4' cols='50'><?php if (!is_null($row2)) echo $row2["credentials"];?></textarea>
   </div>
   <?php
+      }
     }
   ?>
   <div class='submit-btn'>

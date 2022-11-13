@@ -24,14 +24,16 @@ if (isset($_POST["submit"])) {
   $zip = $_POST["zip"];
   $deptNum = $_POST["num"];
   if ($_SESSION["newuserRole"] === 'doctor') {
-    if ($_POST["credentials"] !== '') {
-      $aptNum = $_POST["credentials"];
+      $clinic = $_POST["clinic"];
+      if ($_POST["credentials"] !== '') {
+        $credentials = $_POST["credentials"];
+      }
+      else {
+        $credentials = NULL;
+      }
     }
-    else {
-      $credentials = NULL;
-    }
-  }
-  else if ($_SESSION["newuserRole"] === 'nurse') {
+    else if ($_SESSION["newuserRole"] === 'nurse') {
+    $clinic = $_POST["clinic"];
     $registered = $_POST["registered"];
   }
 
@@ -53,10 +55,10 @@ if (isset($_POST["submit"])) {
   }
 
   if ($_SESSION["newuserRole"] === 'doctor') {
-    createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $credentials);
+    createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $credentials, $clinic);
   }
   else if ($_SESSION["newuserRole"] === 'nurse') {
-    createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $registered);
+    createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip, $deptNum, $registered, $clinic);
   }
   else {
     createReceptionist($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $aptNum, $city, $state, $zip);

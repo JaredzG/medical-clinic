@@ -154,6 +154,25 @@
         }
         else if ($_SESSION["newuserRole"] === "nurse") {
       ?>
+      <div class='form-element'>
+        <label for='clinic'>Preferred Clinic Location</label>
+        <select name='clinic' id='clinic' required>
+          <option>Select</option>
+      <?php
+        $result = viewClinicLocations($conn);
+        while ($row = mysqli_fetch_assoc($result)) {
+          $addID = $row["address_ID"];
+          $streetAdd = $row["street_address"];
+          $city = $row["city"];
+          $state = $row["state"];
+          $zip = $row["zip_code"];
+      ?>
+        <option value='<?php echo $addID; ?>'><?php echo $streetAdd.' '.$city.', '.$state.' '.$zip ?></option>
+      <?php
+        }
+      ?>
+        </select>
+      </div>
    <div class='form-element'>
     <label for='num'>Select a Department</label>
       <select name='num' id='num'>

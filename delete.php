@@ -181,35 +181,44 @@
       if ($_POST["userID"] === 'none') {
         switch ($_POST["otherRole"]) {
           case 'department':
-            echo "<input style='display: none;' type='text' name='department' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='department'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
             break;
           case 'clinic':
-            echo "<input style='display: none;' type='text' name='clinic' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='clinic'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
             break;
           case 'office':
-            echo "<input style='display: none;' type='text' name='office' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='office'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
             break;
           case 'medicine':
-            echo "<input style='display: none;' type='text' name='medicine' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='medicine'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
             break;
         }
       }
       else {
         switch ($_POST["userRole"]) {
           case 'admin':
-            echo "<input style='display: none;' type='text' name='admin' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='admin'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
             break;
           case 'doctor':
-            echo "<input style='display: none;' type='text' name='doctor' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='doctor'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
             break;
           case 'nurse':
-            echo "<input style='display: none;' type='text' name='nurse' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='nurse'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
             break;
           case 'receptionist':
-            echo "<input style='display: none;' type='text' name='receptionist' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='receptionist'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
             break;
           case 'patient':
-            echo "<input style='display: none;' type='text' name='patient' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='role' value='patient'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
             break;
         }
       }
