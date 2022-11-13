@@ -61,7 +61,7 @@ if (isset($_POST["submit"])) {
     $sql3 = "SELECT address_ID FROM Patient WHERE pat_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-      header("location: updatemedrecord.php?error=getaddfailed");
+      header("location: updateinfo.php?error=getaddfailed");
       exit();
     }
     mysqli_stmt_bind_param($stmt3, "i", $userID);
@@ -70,19 +70,22 @@ if (isset($_POST["submit"])) {
     $row = mysqli_fetch_assoc($result);
   }
   else if ($userRole === 'doctor') {
+    $clinic = $_POST["clinic"];
+    $depNum = $_POST["num"];
     $credentials = $_POST["credentials"];
-    $sql2 = "UPDATE Doctor SET f_name = ?, m_name = ?, l_name = ?, credentials = ? WHERE doc_user = ? AND deleted_flag = false;";
+    $sql2 = "UPDATE Doctor SET dep_num = ?, f_name = ?, m_name = ?, l_name = ?, credentials = ? WHERE doc_user = ? AND deleted_flag = false;";
     $stmt2 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt2, $sql2)) {
       header("location: updateinfo.php?error=updinfofailed");
       exit();
     }
-    mysqli_stmt_bind_param($stmt2, "ssssi", $fname, $mname, $lname, $credentials, $userID);
+    mysqli_stmt_bind_param($stmt2, "issssi", $depNum, $fname, $mname, $lname, $credentials, $userID);
     mysqli_stmt_execute($stmt2);
+    docToOffice($conn, $userID, $clinic);
     $sql3 = "SELECT address_ID FROM Doctor WHERE doc_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-      header("location: updatemedrecord.php?error=getaddfailed");
+      header("location: updateinfo.php?error=getaddfailed");
       exit();
     }
     mysqli_stmt_bind_param($stmt3, "i", $userID);
@@ -91,18 +94,21 @@ if (isset($_POST["submit"])) {
     $row = mysqli_fetch_assoc($result);
   }
   else if ($userRole === 'nurse') {
-    $sql2 = "UPDATE Doctor SET f_name = ?, m_name = ?, l_name = ? WHERE nurse_user = ? AND deleted_flag = false;";
+    $clinic = $_POST["clinic"];
+    $depNum = $_POST["num"];
+    $sql2 = "UPDATE Nurse SET dep_num = ?, f_name = ?, m_name = ?, l_name = ? WHERE nurse_user = ? AND deleted_flag = false;";
     $stmt2 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt2, $sql2)) {
       header("location: updateinfo.php?error=updinfofailed");
       exit();
     }
-    mysqli_stmt_bind_param($stmt2, "sssi", $fname, $mname, $lname, $userID);
+    mysqli_stmt_bind_param($stmt2, "isssi", $depNum, $fname, $mname, $lname, $userID);
     mysqli_stmt_execute($stmt2);
+    NurseToDoctorAndOffice($conn, $userID, $clinic);
     $sql3 = "SELECT address_ID FROM Nurse WHERE nurse_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-      header("location: updatemedrecord.php?error=getaddfailed");
+      header("location: updateinfo.php?error=getaddfailed");
       exit();
     }
     mysqli_stmt_bind_param($stmt3, "i", $userID);
@@ -122,7 +128,7 @@ if (isset($_POST["submit"])) {
     $sql3 = "SELECT address_ID FROM Receptionist WHERE nurse_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-      header("location: updatemedrecord.php?error=getaddfailed");
+      header("location: updateinfo.php?error=getaddfailed");
       exit();
     }
     mysqli_stmt_bind_param($stmt3, "i", $userID);
@@ -133,7 +139,7 @@ if (isset($_POST["submit"])) {
 $sql4 = "UPDATE Address SET street_address = ?, apt_num = ?, city = ?, state = ?, zip_code = ? WHERE address_ID = ?;";
 $stmt4 = mysqli_stmt_init($conn);
 if (!mysqli_stmt_prepare($stmt4, $sql4)) {
-  header("location: updatemedrecord.php?error=updaddfailed");
+  header("location: updateinfo.php?error=updaddfailed");
   exit();
 }
 mysqli_stmt_bind_param($stmt4, "sssssi", $streetAdd, $aptNum, $city, $state, $zip, $row["address_ID"]);

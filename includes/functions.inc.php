@@ -641,13 +641,13 @@ function NurseToDoctorAndOffice($conn, $nurseUserID, $clinic) {
   mysqli_stmt_bind_param($stmt3, "ii", $offID, $nurseID);
   mysqli_stmt_execute($stmt3);
 
-  $sql4 = 'SELECT doc_ID FROM Doctor WHERE dep_num = ? AND deleted_flag = false;';
+  $sql4 = 'SELECT doc_ID FROM Doctor WHERE dep_num = ? AND doc_ID = (SELECT doctor_ID FROM Doctor_Works_In_Office WHERE office_ID = ?) AND deleted_flag = false;';
   $stmt4 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt4, $sql4)) {
     header("location: ../empinfo.php?error=nurdocstmtfailed");
     exit();
   }
-  mysqli_stmt_bind_param($stmt4, "i", $deptNum);
+  mysqli_stmt_bind_param($stmt4, "ii", $deptNum, $offID);
   mysqli_stmt_execute($stmt4);
   $result3 = mysqli_stmt_get_result($stmt4);
   while ($row3 = mysqli_fetch_assoc($result3)) {
