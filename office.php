@@ -5,7 +5,7 @@
   <h2>Make an Office</h2>
   <form action='/medical-clinic/includes/office.inc.php' method='post'>
     <div class='form-element'>
-    <label for='num'>Select a Department</label>
+    <label for='num'>Select Department</label>
       <select name='num' id='num'>
         <option>Select</option>
       <?php
@@ -23,7 +23,7 @@
       </select>
     </div>
     <div class='form-element'>
-      <label for='address'>Select an Address</label>
+      <label for='address'>Select Clinic</label>
       <select name='address' id='address'>
         <option>Select</option>
       <?php
@@ -44,7 +44,7 @@
       </select>
     </div>
     <div class='form-element'>
-      <label for='office-num'>Enter a Phone Number</label>
+      <label for='office-num'>Enter Phone Number</label>
       <input type='text' name='offnum' id='office-num' placeholder='Phone Number'/>
     </div>
     <div class='submit-btn'>
@@ -86,6 +86,20 @@
           <td><?php echo $row3["street_address"].' '.$row3["city"].', '.$row3["state"].' '.$row3["zip_code"]?></td>
           <td><?php echo $phoneNum?></td>
           <td>
+          <form action='/medical-clinic/updateoffice.php' method='post'>
+          <div class='form-element'>
+            <input style='display: none;' name='officeID' value='<?php echo $offID?>'/>
+          </div>
+          <div class='form-element'>
+            <input style='display: none;' name='officeDep' value='<?php echo $row2["dep_name"]?>'/>
+          </div>
+          <div class='form-element'>
+            <input style='display: none;' name='officePhoneNum' value='<?php echo $phoneNum?>'/>
+          </div>
+          <div class='submit-btn'>
+            <button type='submit' name='submit'>Make Changes</button>
+          </div>
+        </form>
           <form action='/medical-clinic/delete.php' method='post'>
           <div class='form-element'>
             <input style='display: none;' name='userID' value='none'/>

@@ -103,7 +103,7 @@
       }
       else if ($userRole === 'doctor') {
     ?>
-        <h3>Department Name</h3>
+        <h3>Department</h3>
         <p><?php echo $depname?></p>
         <h3>Credentials</h3>
         <p><?php echo $cred?></p>
@@ -111,7 +111,7 @@
       }
       else if ($userRole === 'nurse') {
     ?>
-        <h3>Department Name</h3>
+        <h3>Department</h3>
         <p><?php echo $depname?></p>
         <h3>Registered?</h3>
         <p><?php

@@ -153,7 +153,3 @@ else if ($_SESSION["userRole"] === 'patient') {
   exit();
 }
 }
-else {
-  require_once 'dbh.inc.php';
-  require_once 'functions.inc.php';
-}

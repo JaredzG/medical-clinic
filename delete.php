@@ -265,7 +265,8 @@
 <div class='delete-form'>
   <form action='/medical-clinic/includes/delete.inc.php' method='post'>
     <div class='form-element'>
-      <input style='display: none;' type='text' name='patient' value='<?php echo $_POST["userID"]?>'/>
+      <input style='display: none;' type='text' name='role' value='patient'/>
+      <input style='display: none;' type='text' name='id' value='<?php echo $_POST["userID"]?>'/>
     </div>
     <button type='submit' name='submit'>YES</button>
   </form>

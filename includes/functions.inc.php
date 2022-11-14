@@ -1720,7 +1720,7 @@ function getFeature($conn, $featureID, $featureRole) {
 
 function deleteEntity($conn, $role, $id) {
   $sqlcounter = 1;
-
+  
 }
 
 /*****************DEBUGGING HELPER*****************/
