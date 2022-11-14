@@ -4,7 +4,12 @@ if (isset($_POST["submit"])) {
   require_once 'functions.inc.php';
   $patID = $_POST["patID"];
   $fname = $_POST["fname"];
-  $mname = $_POST["mname"];
+  if ($_POST["mname"] !== '') {
+    $mname = $_POST["mname"];
+  }
+  else {
+    $mname = NULL;
+  }
   $lname = $_POST["lname"];
   $relationship = $_POST["relationship"];
   $phonenum = $_POST["phonenum"];

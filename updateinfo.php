@@ -255,7 +255,7 @@
           $state = $row["state"];
           $zip = $row["zip_code"];
       ?>
-        <option value='<?php echo $addID; ?>'<?php if ( !is_null($clinic) && $clinic["office_ID"] === $addID) echo ' selected';?>><?php echo $streetAdd.' '.$city.', '.$state.' '.$zip ?></option>
+        <option value='<?php echo $addID; ?>'<?php if (!is_null($clinic) && $clinic["address_ID"] === $addID) echo ' selected';?>><?php echo $streetAdd.' '.$city.', '.$state.' '.$zip ?></option>
       <?php
         }
       ?>

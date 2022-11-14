@@ -293,6 +293,15 @@ function createPatient($conn, $fname, $mname, $lname, $ssn, $sex, $bdate, $ethni
   } 
   mysqli_stmt_bind_param($stmt8, "ii", $doctors[0], $patID);
   mysqli_stmt_execute($stmt8);
+  //Insert into Doctor_Maintains_Medical_Record
+  $sql9 = "INSERT INTO Doctor_Maintains_Medical_Record (pat_ID, doc_ID) VALUES (?, ?);";
+  $stmt9 = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt9, $sql9)) {
+    header("location: ../info.php?error=insdocforpatfailed");
+    exit();
+  } 
+  mysqli_stmt_bind_param($stmt9, "ii", $patID, $doctors[0]);
+  mysqli_stmt_execute($stmt9);
 
   header("location: ../emergencycontact.php?patID=".$patID);
   exit();
@@ -516,7 +525,7 @@ function createDoctor($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $ap
   } 
   mysqli_stmt_bind_param($stmt3, "iisssissi", $ssn, $deptNum, $fname, $mname, $lname, $row["address_ID"], $credentials, $sex, $_SESSION["newuserID"]);
   mysqli_stmt_execute($stmt3);
-  docToOffice($conn, $_SESSION["newuserID"], $clinic);
+  docToOffice($conn, $_SESSION["newuserID"], $clinic, 'create');
   $_SESSION["fname"] = 'admin';
   header("location: ../index.php");
   exit();
@@ -562,13 +571,13 @@ function createNurse($conn, $fname, $mname, $lname, $ssn, $sex, $streetAdd, $apt
   } 
   mysqli_stmt_bind_param($stmt3, "iissssiii", $ssn, $deptNum, $fname, $mname, $lname, $sex, $_SESSION["newuserID"], $registered, $row["address_ID"]);
   mysqli_stmt_execute($stmt3);
-  NurseToDoctorAndOffice($conn, $_SESSION["newuserID"], $clinic);
+  NurseToDoctorAndOffice($conn, $_SESSION["newuserID"], $clinic, 'create');
   $_SESSION["fname"] = 'admin';
   header("location: ../index.php");
   exit();
 }
 
-function docToOffice($conn, $docUserID, $clinic) {
+function docToOffice($conn, $docUserID, $clinic, $action) {
   $docUserID = intval($docUserID);
   $sql = 'SELECT doc_ID, dep_num FROM Doctor WHERE doc_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
@@ -594,18 +603,29 @@ function docToOffice($conn, $docUserID, $clinic) {
   $result2 = mysqli_stmt_get_result($stmt2);
   $row2 = mysqli_fetch_assoc($result2);
   $offID = intval($row2["office_ID"]);
-
-  $sql3 = "INSERT INTO Doctor_Works_In_Office (office_ID, doctor_ID) VALUES (?, ?);";
-  $stmt3 = mysqli_stmt_init($conn);
-  if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-    header("location: ../empinfo.php?error=docoffstmtfailed");
-    exit();
+  if ($action === 'create') {
+    $sql3 = "INSERT INTO Doctor_Works_In_Office (office_ID, doctor_ID) VALUES (?, ?);";
+    $stmt3 = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+      header("location: ../empinfo.php?error=docoffstmtfailed");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt3, "ii", $offID, $docID);
+    mysqli_stmt_execute($stmt3);
   }
-  mysqli_stmt_bind_param($stmt3, "ii", $offID, $docID);
-  mysqli_stmt_execute($stmt3);
+  else if ($action === 'update') {
+    $sql3 = "UPDATE Doctor_Works_In_Office SET office_ID = ? WHERE doctor_ID = ?;";
+    $stmt3 = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+      header("location: ../empinfo.php?error=docoffstmtfailed");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt3, "ii", $offID, $docID);
+    mysqli_stmt_execute($stmt3);
+  }
 }
 
-function NurseToDoctorAndOffice($conn, $nurseUserID, $clinic) {
+function NurseToDoctorAndOffice($conn, $nurseUserID, $clinic, $action) {
   $nurseUserID = intval($nurseUserID);
   $sql = 'SELECT nurse_ID, dep_num FROM Nurse WHERE nurse_user = ? AND deleted_flag = false;';
   $stmt = mysqli_stmt_init($conn);
@@ -631,16 +651,26 @@ function NurseToDoctorAndOffice($conn, $nurseUserID, $clinic) {
   $result2 = mysqli_stmt_get_result($stmt2);
   $row2 = mysqli_fetch_assoc($result2);
   $offID = intval($row2["office_ID"]);
-
-  $sql3 = "INSERT INTO Nurse_Works_In_Office (office_ID, nurse_ID) VALUES (?, ?);";
-  $stmt3 = mysqli_stmt_init($conn);
-  if (!mysqli_stmt_prepare($stmt3, $sql3)) {
-    header("location: ../empinfo.php?error=nuroffstmtfailed");
-    exit();
+  if ($action === 'create') {
+    $sql3 = "INSERT INTO Nurse_Works_In_Office (office_ID, nurse_ID) VALUES (?, ?);";
+    $stmt3 = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+      header("location: ../empinfo.php?error=nuroffstmtfailed");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt3, "ii", $offID, $nurseID);
+    mysqli_stmt_execute($stmt3);
   }
-  mysqli_stmt_bind_param($stmt3, "ii", $offID, $nurseID);
-  mysqli_stmt_execute($stmt3);
-
+  else if ($action === 'update') {
+    $sql3 = "UPDATE Nurse_Works_In_Office SET office_ID = ? WHERE nurse_ID = ?;";
+    $stmt3 = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+      header("location: ../empinfo.php?error=docoffstmtfailed");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt3, "ii", $offID, $nurseID);
+    mysqli_stmt_execute($stmt3);
+  }
   $sql4 = 'SELECT doc_ID FROM Doctor WHERE dep_num = ? AND doc_ID = (SELECT doctor_ID FROM Doctor_Works_In_Office WHERE office_ID = ?) AND deleted_flag = false;';
   $stmt4 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt4, $sql4)) {
@@ -1611,13 +1641,23 @@ function getPreferredClinic($conn, $userRole, $roleID) {
   }
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
-    header("location: updateinfo.php?error=getclinicaddfailed");
+    header("location: updateinfo.php?error=getoffidfailed");
     exit();
   }
   mysqli_stmt_bind_param($stmt, "i", $roleID);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
-  return $result;
+  $row = mysqli_fetch_assoc($result);
+  $sql2 = "SELECT address_ID FROM Office WHERE office_ID = ?;";
+  $stmt2 = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+    header("location: updateinfo.php?error=getclinicaddfailed");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt2, "i", $row["office_ID"]);
+  mysqli_stmt_execute($stmt2);
+  $result2 = mysqli_stmt_get_result($stmt2);
+  return $result2;
 }
 
 function getClinicAddressOfPrimaryDoctor($conn, $primDoc) {
@@ -1719,8 +1759,270 @@ function getFeature($conn, $featureID, $featureRole) {
 }
 
 function deleteEntity($conn, $role, $id) {
-  $sqlcounter = 1;
-  
+  switch($role) {
+    case 'admin':
+      $sql = "UPDATE User_Account SET deleted_flag = 1 WHERE user_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      break;
+    case 'doctor':
+      $sql = "UPDATE Doctor SET deleted_flag = 1 WHERE doc_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      $sql2 = "UPDATE Doctor_Works_In_Office SET deleted_flag = 1 WHERE doctor_ID = ?;";
+      $stmt2 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt2, "i", $id);
+      mysqli_stmt_execute($stmt2);
+      $sql3 = "SELECT address_ID FROM Doctor WHERE doc_ID = ?;";
+      $stmt3 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+        header("location: updateinfo.php?error=getaddfailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt3, "i", $id);
+      mysqli_stmt_execute($stmt3);
+      $result = mysqli_stmt_get_result($stmt3);
+      $row = mysqli_fetch_assoc($result);
+      $addID = $row["address_ID"];
+      $sql4 = "UPDATE Address SET deleted_flag = 1 WHERE address_ID = ?;";
+      $stmt4 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt4, $sql4)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt4, "i", $addID);
+      mysqli_stmt_execute($stmt4);
+      $sql5 = "UPDATE Doctor_For_Patient SET deleted_flag = 1 WHERE doc_ID = ?;";
+      $stmt5 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt5, $sql5)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt5, "i", $id);
+      mysqli_stmt_execute($stmt5);
+      $sql6 = "UPDATE Doctor_Maintains_Medical_Record SET deleted_flag = 1 WHERE doc_ID = ?;";
+      $stmt6 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt6, $sql6)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt6, "i", $id);
+      mysqli_stmt_execute($stmt6);
+      $sql7 = "UPDATE Nurse_Works_With_Doctor SET deleted_flag = 1 WHERE doc_ID = ?;";
+      $stmt7 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt7, $sql7)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt7, "i", $id);
+      mysqli_stmt_execute($stmt7);
+      break;
+    case 'nurse':
+      $sql = "UPDATE Nurse SET deleted_flag = 1 WHERE nurse_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      $sql2 = "UPDATE Nurse_Works_In_Office SET deleted_flag = 1 WHERE nurse_ID = ?;";
+      $stmt2 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt2, "i", $id);
+      mysqli_stmt_execute($stmt2);
+      $sql3 = "SELECT address_ID FROM Nurse WHERE nurse_ID = ?;";
+      $stmt3 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+        header("location: updateinfo.php?error=getaddfailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt3, "i", $id);
+      mysqli_stmt_execute($stmt3);
+      $result = mysqli_stmt_get_result($stmt3);
+      $row = mysqli_fetch_assoc($result);
+      $addID = $row["address_ID"];
+      $sql4 = "UPDATE Address SET deleted_flag = 1 WHERE address_ID = ?;";
+      $stmt4 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt4, $sql4)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt4, "i", $addID);
+      mysqli_stmt_execute($stmt4);
+      $sql5 = "UPDATE Nurse_Works_On_Appointment SET deleted_flag = 1 WHERE nurse_ID = ?;";
+      $stmt5 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt5, $sql5)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt5, "i", $id);
+      mysqli_stmt_execute($stmt5);
+      $sql6 = "UPDATE Nurse_Works_With_Doctor SET deleted_flag = 1 WHERE nurse_ID = ?;";
+      $stmt6 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt6, $sql6)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt6, "i", $id);
+      mysqli_stmt_execute($stmt6);
+      break;
+    case 'receptionist':
+      $sql = "UPDATE Receptionist SET deleted_flag = 1 WHERE rec_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      $sql2 = "SELECT address_ID FROM Receptionist WHERE rec_ID = ?;";
+      $stmt2 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+        header("location: updateinfo.php?error=getaddfailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt2, "i", $id);
+      mysqli_stmt_execute($stmt2);
+      $result = mysqli_stmt_get_result($stmt2);
+      $row = mysqli_fetch_assoc($result);
+      $addID = $row["address_ID"];
+      $sql3 = "UPDATE Address SET deleted_flag = 1 WHERE address_ID = ?;";
+      $stmt3 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt3, "i", $addID);
+      mysqli_stmt_execute($stmt3);
+      break;
+    case 'patient':
+      $sql = "UPDATE User_Account SET deleted_flag = 1 WHERE patient_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      $sql2 = "UPDATE Medical_Record SET deleted_flag = 1 WHERE pat_ID = ?;";
+      $stmt2 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt2, "i", $id);
+      mysqli_stmt_execute($stmt2);
+      $sql3 = "SELECT address_ID FROM Patient WHERE pat_ID = ?;";
+      $stmt3 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+        header("location: updateinfo.php?error=getaddfailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt3, "i", $id);
+      mysqli_stmt_execute($stmt3);
+      $result = mysqli_stmt_get_result($stmt3);
+      $row = mysqli_fetch_assoc($result);
+      $addID = $row["address_ID"];
+      $sql4 = "UPDATE Address SET deleted_flag = 1 WHERE address_ID = ?;";
+      $stmt4 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt4, $sql4)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt4, "i", $addID);
+      mysqli_stmt_execute($stmt4);
+      $sql5 = "UPDATE Doctor_For_Patient SET deleted_flag = 1 WHERE pat_ID = ?;";
+      $stmt5 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt5, $sql5)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt5, "i", $id);
+      mysqli_stmt_execute($stmt5);
+      $sql6 = "UPDATE Medical_Record_Contains_Medicine SET deleted_flag = 1 WHERE pat_ID = ?;";
+      $stmt6 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt6, $sql6)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt6, "i", $id);
+      mysqli_stmt_execute($stmt6);
+      $sql7 = "UPDATE Doctor_Maintains_Medical_Record SET deleted_flag = 1 WHERE pat_ID = ?;";
+      $stmt7 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt7, $sql7)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt7, "i", $id);
+      mysqli_stmt_execute($stmt7);
+      $sql8 = "UPDATE Emergency_Contact SET deleted_flag = 1 WHERE patient_ID = ?;";
+      $stmt8 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt8, $sql8)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt8, "i", $id);
+      mysqli_stmt_execute($stmt8);
+      break;
+    case 'department':
+      $sql = "UPDATE Department SET deleted_flag = 1 WHERE department_number = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      break;
+    case 'clinic':
+      $sql = "UPDATE Address SET deleted_flag = 1 WHERE address_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      break;
+    case 'office':
+      $sql = "UPDATE Office SET deleted_flag = 1 WHERE office_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      break;
+    case 'medicine':
+      $sql = "UPDATE Medicine SET deleted_flag = 1 WHERE med_ID = ?;";
+      $stmt = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: updateinfo.php?error=deletefailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt, "i", $id);
+      mysqli_stmt_execute($stmt);
+      break;
+  }
 }
 
 /*****************DEBUGGING HELPER*****************/

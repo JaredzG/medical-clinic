@@ -81,7 +81,7 @@ if (isset($_POST["submit"])) {
     }
     mysqli_stmt_bind_param($stmt2, "issssi", $depNum, $fname, $mname, $lname, $credentials, $userID);
     mysqli_stmt_execute($stmt2);
-    docToOffice($conn, $userID, $clinic);
+    docToOffice($conn, $userID, $clinic, 'update');
     $sql3 = "SELECT address_ID FROM Doctor WHERE doc_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
@@ -104,7 +104,7 @@ if (isset($_POST["submit"])) {
     }
     mysqli_stmt_bind_param($stmt2, "isssi", $depNum, $fname, $mname, $lname, $userID);
     mysqli_stmt_execute($stmt2);
-    NurseToDoctorAndOffice($conn, $userID, $clinic);
+    NurseToDoctorAndOffice($conn, $userID, $clinic, 'update');
     $sql3 = "SELECT address_ID FROM Nurse WHERE nurse_user = ? and deleted_flag = false;";
     $stmt3 = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt3, $sql3)) {
