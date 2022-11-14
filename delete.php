@@ -182,19 +182,19 @@
         switch ($_POST["otherRole"]) {
           case 'department':
             echo "<input style='display: none;' type='text' name='role' value='department'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["department_number"]."'/>";
             break;
           case 'clinic':
             echo "<input style='display: none;' type='text' name='role' value='clinic'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["address_ID"]."'/>";
             break;
           case 'office':
             echo "<input style='display: none;' type='text' name='role' value='office'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["office_ID"]."'/>";
             break;
           case 'medicine':
             echo "<input style='display: none;' type='text' name='role' value='medicine'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["otherID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["med_ID"]."'/>";
             break;
         }
       }
@@ -202,23 +202,23 @@
         switch ($_POST["userRole"]) {
           case 'admin':
             echo "<input style='display: none;' type='text' name='role' value='admin'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["user_ID"]."'/>";
             break;
           case 'doctor':
             echo "<input style='display: none;' type='text' name='role' value='doctor'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["doc_ID"]."'/>";
             break;
           case 'nurse':
             echo "<input style='display: none;' type='text' name='role' value='nurse'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["nurse_ID"]."'/>";
             break;
           case 'receptionist':
             echo "<input style='display: none;' type='text' name='role' value='receptionist'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["rec_ID"]."'/>";
             break;
           case 'patient':
             echo "<input style='display: none;' type='text' name='role' value='patient'/>";
-            echo "<input style='display: none;' type='text' name='id' value='".$_POST["userID"]."'/>";
+            echo "<input style='display: none;' type='text' name='id' value='".$row["patient_ID"]."'/>";
             break;
         }
       }
@@ -260,13 +260,23 @@
 <?php
   }
   else if ($_POST["senderRole"] === 'patient') {
+    $sql3 = "SELECT patient_ID FROM Patient WHERE pat_user = ?;";
+    $stmt3 = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt3, $sql3)) {
+      header("location: updateinfo.php?error=getaddfailed");
+      exit();
+    }
+    mysqli_stmt_bind_param($stmt3, "i", $_POST["userID"]);
+    mysqli_stmt_execute($stmt3);
+    $result = mysqli_stmt_get_result($stmt3);
+    $row = mysqli_fetch_assoc($result);
 ?>
 <h2>Are you sure you want to delete your account?</h2>
 <div class='delete-form'>
   <form action='/medical-clinic/includes/delete.inc.php' method='post'>
     <div class='form-element'>
       <input style='display: none;' type='text' name='role' value='patient'/>
-      <input style='display: none;' type='text' name='id' value='<?php echo $_POST["userID"]?>'/>
+      <input style='display: none;' type='text' name='id' value='<?php echo $row["patient_ID"];?>'/>
     </div>
     <button type='submit' name='submit'>YES</button>
   </form>
