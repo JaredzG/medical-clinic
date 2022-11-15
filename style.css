@@ -17,7 +17,7 @@ a:visited { /* visited link */
 
 
 a:hover { /* mouse over link */
-  color: #5c5c5c;
+  color: #darkgray;
 }
 
 a:active { /* selected link */
@@ -133,7 +133,7 @@ input{
   border-radius: 3px;
   width: 250px;
   outline:none;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .login-form{
   width:100vw;
@@ -146,16 +146,41 @@ input{
   font-size: 16;
 }
 button{
+  
+ display: inline-block;
+ outline: none;
+ cursor: pointer;
+ border-radius: 3px;
+ font-size: 14px;
+ font-weight: 500;
+ line-height: 16px;
+ padding: 2px 16px;
+ height: 30px;
+ margin-top: 10px;
+ min-width: 60px;
+ min-height: 32px;
+ border: none;
+ color: #fff;
+ background-color: #172940;
+ transition: background-color .17s ease,color .17s ease;
+                
+}
+p.headtitle{
+  color: white;
+  text-align:center;
+  font-size: 20px;
+  font-weight: bold;
+}
+/*  text-align:center;
+  font-size:20px;
+  font-family:sans-serif;
+  margin: 2rem auto;
+  border: 2px solid #172940;
+
   border: none;
   padding: 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 10px;
-  margin: 4px 4px;
-}
-/*  text-align:center;
-  font-size:20px;
-  font-family:sans-serif;
-  margin: 2rem auto;
-  border: 2px solid #172940;*/
+  margin: 4px 4px;*/
