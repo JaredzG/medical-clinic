@@ -17,7 +17,7 @@ a:visited { /* visited link */
 
 
 a:hover { /* mouse over link */
-  color: #darkgray;
+  color: #5c5c5c;
 }
 
 a:active { /* selected link */
