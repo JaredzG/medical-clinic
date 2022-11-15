@@ -23,6 +23,7 @@
            <p class='headtitle'>G3 Medical Clinic</p>
 				 </ul>
          <ul class='navigation'>
+          <img src="med_logo.png" alt="company logo">
            <li><a href='index.php'>Home</a></li>
            <?php
             if (isset($_SESSION["userID"])) {
@@ -69,6 +70,7 @@
               echo "<li><a href='login.php'>Log In</a></li>";
             }
            ?>
+           <img src="med_logo.png" alt="company logo">
           </ul>
        </div>
       </nav>
