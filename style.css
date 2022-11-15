@@ -1,0 +1,161 @@
+div.welcome{
+  color: #F2EEE5;
+	text-align: center;
+	overflow: hidden;
+  background-color:#172940;
+  font-family: serif;
+}
+
+a:link { /* unvisited link */
+  color: gray;
+}
+
+
+a:visited { /* visited link */
+  color: gray;
+}
+
+
+a:hover { /* mouse over link */
+  color: #darkgray;
+}
+
+a:active { /* selected link */
+  color: gray;
+}
+
+img {
+	float: left;
+	height: 40px;
+	width: 40px;
+	margin-left: 10px;
+	margin-top: 3px;
+	vertical-align: middle;
+}
+
+ul {
+	display: table; /* center home/login/signup */
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+  vertical-align: middle;
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+
+ul.header {
+	/*text stuff for header*/
+  display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:#172940;
+}
+
+ul.navigation{
+	background-color: #ffffff;
+}
+
+ul.footer {
+	/*text stuff for footer*/
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color:#7A8CA4;
+  clear:both;
+  margin-top:180px;
+  height: 180px;
+  font-size:18px;
+  font-family: Arial;
+  font-style: italic;
+  font-weight:bold;
+}
+
+
+p.cleft{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+  float: left;
+	color: #e1e1e1;
+}
+p.cright{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+  float: right;
+	color: #e1e1e1;
+}
+
+li {
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: #ffffff;
+  float: left;
+	list-style-type: none;
+}
+
+li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #c8c8c8;
+}
+
+h2{
+  text-align:center;
+  color:#172940;
+}
+.signup-form{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  font-size: 16;
+}
+input{
+  border: none;
+  background: #f2f2f2;
+  padding: 10px;
+  border-radius: 3px;
+  width: 250px;
+  outline:none;
+  margin-top: 10px;
+}
+.login-form{
+  width:100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  font-size: 16;
+}
+button{
+  border: none;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 4px;
+}
+/*  text-align:center;
+  font-size:20px;
+  font-family:sans-serif;
+  margin: 2rem auto;
+  border: 2px solid #172940;*/
