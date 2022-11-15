@@ -1,7 +1,9 @@
 <?php
   session_start();
 ?>
-
+<style>
+  <?php include 'style.css';?>
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +17,7 @@
     <header>
       <nav>
        <div>
-         <ul>
+         <ul class='navigation'>
            <li><a href='index.php'>Home</a></li>
            <?php
             if (isset($_SESSION["userID"])) {
