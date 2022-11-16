@@ -60,7 +60,6 @@
                 echo "<li><a href='settings.php'>Settings</a></li>";
                 echo "<li><a href='transactions.php'>Transactions</a></li>";
                 echo "<li><a href='appointment.php'>Make an Appointment</a></li>";
-                echo "<li><a href='settings.php'>Settings</a></li>";
                 echo "<li><a href='viewmedrecord.php'>Medical Record</a></li>";
               }
               echo "<li><a href='viewappointments.php'>View Appointments</a></li>";
