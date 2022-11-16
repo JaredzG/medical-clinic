@@ -1305,16 +1305,14 @@ function viewTransactions($conn, $mindate, $maxdate) {
   return $result;
 }
 
-function viewPatientDues($conn, $mindate, $maxdate, $fname, $lname, $bdate) {
-  $mindate = str_replace("T", " ", $mindate);
-  $maxdate = str_replace("T", " ", $maxdate);
-  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE f_name = ? AND l_name = ? AND deleted_flag = false) AND patient_ID IN (SELECT pat_ID FROM Medical_Record WHERE b_date = ? AND deleted_flag = false);";
+function viewPatientDues($conn, $mindate, $maxdate, $lname, $bdate) {
+  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE l_name = ? AND deleted_flag = false);";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=gettransactionsfailed");
     exit();
   }
-  mysqli_stmt_bind_param($stmt, "sssss", $mindate, $maxdate, $fname, $lname, $bdate);
+  mysqli_stmt_bind_param($stmt, "ssss", $mindate, $maxdate, $lname, $bdate);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   return $result;
