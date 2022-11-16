@@ -7,6 +7,11 @@
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.19
 
+DROP DATABASE IF EXISTS med_clinic_db;
+CREATE DATABASE med_clinic_db;
+USE med_clinic_db;
+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
