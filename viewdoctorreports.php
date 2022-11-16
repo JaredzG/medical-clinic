@@ -39,8 +39,8 @@
      <th>Dep Name</th>
       <th>Doctor F Name</th>
       <th>Doctor L Name</th>
-      <th>Appointment Count</th>
-      <th>NEW PATIENT COUNT</th>
+      <th>TOTAL APPOINTMENT COUNT</th>
+      <th>UNIQUE PATIENT COUNT</th>
     </tr>
     <?php
       while ($row = mysqli_fetch_assoc($scheduled)) {
