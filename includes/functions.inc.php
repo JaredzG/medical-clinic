@@ -1306,7 +1306,7 @@ function viewTransactions($conn, $mindate, $maxdate) {
 }
 
 function viewPatientDues($conn, $mindate, $maxdate, $lname, $bdate) {
-  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE l_name = ? AND patient_ID = (SELECT pat_ID FROM Medical_Record WHERE b_date = ?));";
+  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE l_name = ? AND deleted_flag = FALSE AND patient_ID = (SELECT pat_ID FROM Medical_Record WHERE b_date = ?));";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=gettransactionsfailed");
