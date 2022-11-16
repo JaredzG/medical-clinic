@@ -34,14 +34,17 @@
 ?>
 <div>
   <h2>Doctor Report</h2>
-  <table>
-    <tr>
-      <th>Dep Name</th>
-      <th>Doctor Count</th>
-      <th>TOTAL APPOINTMENT COUNT</th>
-      <th>UNIQUE PATIENT COUNT</th>
-      <th>Revenue</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Dep Name</th>
+        <th>Doctor Count</th>
+        <th>TOTAL APPOINTMENT COUNT</th>
+        <th>UNIQUE PATIENT COUNT</th>
+        <th>Revenue</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($scheduled)) {
         $dname = $row["dep_name"];
@@ -60,6 +63,7 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <?php

@@ -94,15 +94,18 @@
 ?>
 <div>
   <h2>Clinic Locations</h2>
-  <table>
-    <tr>
-      <th>Address ID</th>
-      <th>Street Address</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Zip Code</th>
-      <th>Action</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Address ID</th>
+        <th>Street Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip Code</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result)) {
         $addID = $row["address_ID"];
@@ -143,6 +146,7 @@
     <?php
       }
     ?>
+    </tbody>
   </table>
 </div>
 <?php

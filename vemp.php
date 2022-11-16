@@ -40,12 +40,15 @@
 ?>
     <div>
       <h2><?php echo $depname.' '?>Employees</h2>
-      <table>
-        <tr>
-          <th>User ID</th>
-          <th>Name</th>
-          <th>Role</th>
-        </tr>
+      <table class="table-template">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
         <?php
           if ($_POST["num"] !== '0') {
             $result2 = getEmployees($conn, $_POST["num"], 1);
@@ -86,6 +89,7 @@
             <td><?php echo $empName?></td>
             <td><?php echo $role?></td>
           </tr>
+          </tbody>
       </table>
     </div>
   <?php

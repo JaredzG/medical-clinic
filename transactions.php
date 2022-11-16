@@ -14,26 +14,30 @@
       ?>
         <div>
           <h2>Unpaid Appointments</h2>
-          <table>
-          <tr>
-            <th>Date and Time</th>
-            <th>Reason</th>
-            <th>Action</th>
-          </tr>
-          <?php
-            while ($row = mysqli_fetch_assoc($result)) {
-              $dateTime = $row["date_time"];
-              $reason = $row["reason"];
-              $appID = $row["app_ID"];
-          ?>
-              <tr>
-                <td><?php echo $dateTime?></td>
-                <td><?php echo $reason?></td>
-                <td><a href='includes/makepayment.inc.php?id=<?php echo $patID["patient_ID"]?>&appid=<?php echo $appID?>'>Make Payment</a></td>
-              </tr>
-          <?php
-            }
-          ?>
+          <table class="table-template">
+          <thead>
+            <tr>
+              <th>Date and Time</th>
+              <th>Reason</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              while ($row = mysqli_fetch_assoc($result)) {
+                $dateTime = $row["date_time"];
+                $reason = $row["reason"];
+                $appID = $row["app_ID"];
+            ?>
+                <tr>
+                  <td><?php echo $dateTime?></td>
+                  <td><?php echo $reason?></td>
+                  <td><a href='includes/makepayment.inc.php?id=<?php echo $patID["patient_ID"]?>&appid=<?php echo $appID?>'>Make Payment</a></td>
+                </tr>
+            <?php
+              }
+            ?>
+          </tbody>
           </table>
         </div>
       <?php
@@ -65,26 +69,30 @@
       $maxdate = $_POST["maxdate"];
       $result = viewPatientTransactions($conn, $patID["patient_ID"], $mindate, $maxdate);
 ?>
-<table>
-    <tr>
-      <th>Transaction ID</th>
-      <th>Date</th>
-      <th>Amount</th>
-    </tr>
-    <?php
-      while ($row = mysqli_fetch_assoc($result)) {
-        $transID = $row["transaction_ID"];
-        $paydate = $row["transaction_date"];
-        $amount = $row["amount"];
-    ?>
-        <tr>
-          <td><?php echo $transID?></td>
-          <td><?php echo $paydate?></td>
-          <td><?php if ($amount >= 0) echo '$'.$amount; else echo '-$'.sprintf('%.2f',abs($amount));?></td>
-        </tr>
-    <?php
-      }
-    ?>
+<table class="table-template">
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Date</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        while ($row = mysqli_fetch_assoc($result)) {
+          $transID = $row["transaction_ID"];
+          $paydate = $row["transaction_date"];
+          $amount = $row["amount"];
+      ?>
+          <tr>
+            <td><?php echo $transID?></td>
+            <td><?php echo $paydate?></td>
+            <td><?php if ($amount >= 0) echo '$'.$amount; else echo '-$'.sprintf('%.2f',abs($amount));?></td>
+          </tr>
+      <?php
+        }
+      ?>
+    </tbody>
     </table>
 <?php
     }
@@ -139,43 +147,47 @@
     }
     $revenue = 0.00;
 ?>
-    <table>
-      <tr>
-        <?php
-          if ($_SESSION["userRole"] === 'admin') {
-            echo '<th>Transaction ID</th>';
-            echo '<th>Patient ID</th>';
-          }
-        ?>
-        <th>Date</th>
-        <th>Amount</th>
-      </tr>
-      <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-          $transID = $row["transaction_ID"];
-          $patientID = $row["patient_ID"];
-          $paydate = $row["transaction_date"];
-          $amount = $row["amount"];
-          if ($amount < 0) {
-            $revenue = $revenue - $amount;
-          }
-          else {
-            $dues = $dues + $amount;
-          }
-          ?>
-          <tr>
-            <?php
-             if ($_SESSION["userRole"] === 'admin') {
-               echo '<td>'.$transID.'</td>';
-               echo '<td>'.$patientID.'</td>';
-             }
-            ?>
-            <td><?php echo $paydate?></td>
-            <td><?php if ($amount >= 0) echo '$'.$amount; else echo '-$'.sprintf('%.2f',abs($amount));?></td>
-          </tr>
+    <table class="table-template">
+      <thead>
+        <tr>
           <?php
-       }
-      ?>
+            if ($_SESSION["userRole"] === 'admin') {
+              echo '<th>Transaction ID</th>';
+              echo '<th>Patient ID</th>';
+            }
+          ?>
+          <th>Date</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+          while ($row = mysqli_fetch_assoc($result)) {
+            $transID = $row["transaction_ID"];
+            $patientID = $row["patient_ID"];
+            $paydate = $row["transaction_date"];
+            $amount = $row["amount"];
+            if ($amount < 0) {
+              $revenue = $revenue - $amount;
+            }
+            else {
+              $dues = $dues + $amount;
+            }
+            ?>
+            <tr>
+              <?php
+              if ($_SESSION["userRole"] === 'admin') {
+                echo '<td>'.$transID.'</td>';
+                echo '<td>'.$patientID.'</td>';
+              }
+              ?>
+              <td><?php echo $paydate?></td>
+              <td><?php if ($amount >= 0) echo '$'.$amount; else echo '-$'.sprintf('%.2f',abs($amount));?></td>
+            </tr>
+            <?php
+        }
+        ?>
+        </tbody>
       </table>
 <?php
     }

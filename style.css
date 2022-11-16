@@ -17,7 +17,7 @@ a:visited { /* visited link */
 
 
 a:hover { /* mouse over link */
-  color: #darkgray;
+  color: darkgray;
 }
 
 a:active { /* selected link */
@@ -184,3 +184,38 @@ p.headtitle{
   display: inline-block;
   font-size: 10px;
   margin: 4px 4px;*/
+
+/* Table Formatting */
+.table-template {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+.table-template thead tr {
+  background-color: #172940;
+  color: #ffffff;
+  text-align: center;
+}
+
+.table-template th,
+.table-template td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.table-template tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.table-template tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.table-template tbody tr:last-of-type {
+  border-bottom: 2px solid #172940;
+}

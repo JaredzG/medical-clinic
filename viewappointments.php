@@ -39,11 +39,14 @@
 ?>
 <div>
   <h2>Scheduled Appointments</h2>
-  <table>
-    <tr>
-      <th>Date and Time</th>
-      <th>Reason</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Date and Time</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result1)) {
         $dateTime = $row["date_time"];
@@ -56,16 +59,20 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <div>
 <div>
   <h2>Approved Appointments</h2>
-  <table>
-    <tr>
-      <th>Date and Time</th>
-      <th>Reason</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Date and Time</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result2)) {
         $dateTime = $row["date_time"];
@@ -78,15 +85,19 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <div>
   <h2>Unpaid Appointments</h2>
-  <table>
+  <table class="table-template">
+    <thead>
     <tr>
       <th>Date and Time</th>
       <th>Reason</th>
     </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result3)) {
         $dateTime = $row["date_time"];
@@ -99,15 +110,19 @@
         <?php
       }
       ?>
+      </tbody>
     </table>
   </div>
   <div>
     <h2>Paid Appointments</h2>
-    <table>
+    <table class="table-template">
+      <thead>
       <tr>
         <th>Date and Time</th>
         <th>Reason</th>
       </tr>
+      </thead>
+      <tbody>
       <?php
       while ($row = mysqli_fetch_assoc($result4)) {
         $dateTime = $row["date_time"];
@@ -120,15 +135,19 @@
         <?php
       }
       ?>
+      </tbody>
     </table>
   </div>
   <div>
     <h2>Cancelled Appointments</h2>
-    <table>
-      <tr>
-        <th>Date and Time</th>
-        <th>Reason</th>
-      </tr>
+    <table class="table-template">
+      <thead>
+        <tr>
+          <th>Date and Time</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
       <?php
         while ($row = mysqli_fetch_assoc($result5)) {
           $dateTime = $row["date_time"];
@@ -141,6 +160,7 @@
       <?php
         }
       ?>
+      </tbody>
       </table>
   </div>
   <div>
@@ -152,50 +172,58 @@
 ?>
 <div>
   <h2>Completed Appointments</h2>
-  <table>
-    <tr>
-      <th>Patient ID</th>
-      <th>Date and Time</th>
-      <th>Reason</th>
-    </tr>
-    <?php
-      while ($row = mysqli_fetch_assoc($doccomapps)) {
-        $patID = $row["patient_ID"];
-        $dateTime = $row["date_time"];
-        $reason = $row["reason"];
-        ?>
-        <tr>
-          <td><?php echo $patID?></td>
-          <td><?php echo $dateTime?></td>
-          <td><?php echo $reason?></td>
-        </tr>
-        <?php
-      }
-      ?>
-    </table>
-  </div>
-  <div>
-    <h2>Incomplete Appointments</h2>
-    <table>
+  <table class="table-template">
+    <thead>
       <tr>
         <th>Patient ID</th>
         <th>Date and Time</th>
         <th>Reason</th>
       </tr>
+    </thead>
+    <tbody>
       <?php
-      while ($row = mysqli_fetch_assoc($docincapps)) {
-        $patID = $row["patient_ID"];
-        $dateTime = $row["date_time"];
-        $reason = $row["reason"];
+        while ($row = mysqli_fetch_assoc($doccomapps)) {
+          $patID = $row["patient_ID"];
+          $dateTime = $row["date_time"];
+          $reason = $row["reason"];
+          ?>
+          <tr>
+            <td><?php echo $patID?></td>
+            <td><?php echo $dateTime?></td>
+            <td><?php echo $reason?></td>
+          </tr>
+          <?php
+        }
         ?>
+    </tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Incomplete Appointments</h2>
+    <table class="table-template">
+      <thead>
         <tr>
-          <td><?php echo $patID?></td>
-          <td><?php echo $dateTime?></td>
-          <td><?php echo $reason?></td>
+          <th>Patient ID</th>
+          <th>Date and Time</th>
+          <th>Reason</th>
         </tr>
-    <?php
-      }
-    ?>
+      </thead>
+      <tbody>
+        <?php
+        while ($row = mysqli_fetch_assoc($docincapps)) {
+          $patID = $row["patient_ID"];
+          $dateTime = $row["date_time"];
+          $reason = $row["reason"];
+          ?>
+          <tr>
+            <td><?php echo $patID?></td>
+            <td><?php echo $dateTime?></td>
+            <td><?php echo $reason?></td>
+          </tr>
+      <?php
+        }
+      ?>
+      </tbody>
     </table>
 </div>
 <?php
@@ -206,12 +234,15 @@
 ?>
 <div>
   <h2>Completed Appointments</h2>
-  <table>
-    <tr>
-      <th>Patient ID</th>
-      <th>Date and Time</th>
-      <th>Reason</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Patient ID</th>
+        <th>Date and Time</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($nursecomapps)) {
         $patID = $row["patient_ID"];
@@ -226,16 +257,20 @@
         <?php
       }
       ?>
+    </tbody>
     </table>
   </div>
   <div>
     <h2>Incomplete Appointments</h2>
-    <table>
-      <tr>
-        <th>Patient ID</th>
-        <th>Date and Time</th>
-        <th>Reason</th>
-      </tr>
+    <table class="table-template">
+      <thead>
+        <tr>
+          <th>Patient ID</th>
+          <th>Date and Time</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
       <?php
       while ($row = mysqli_fetch_assoc($nurseincapps)) {
         $patID = $row["patient_ID"];
@@ -250,6 +285,7 @@
     <?php
       }
     ?>
+      </tbody>
     </table>
 </div>
 <?php
@@ -262,14 +298,17 @@
 ?>
 <div>
   <h2>Scheduled Appointments</h2>
-  <table>
-    <tr>
-      <th>Appointment ID</th>
-      <th>Patient ID</th>
-      <th>Date and Time</th>
-      <th>Reason</th>
-      <th>Actions</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Appointment ID</th>
+        <th>Patient ID</th>
+        <th>Date and Time</th>
+        <th>Reason</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($scheduled)) {
         debug_to_console($row);
@@ -291,11 +330,13 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <div>
   <h2>Approved Appointments</h2>
-  <table>
+  <table class="table-template">
+    <thead>
     <tr>
       <th>Appointment ID</th>
       <th>Patient ID</th>
@@ -303,6 +344,8 @@
       <th>Reason</th>
       <th>Actions</th>
     </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($approved)) {
         $appID = $row["app_ID"];
@@ -323,17 +366,21 @@
     <?php
       }
     ?>
+    <tbody>
     </table>
 </div>
 <div>
   <h2>Completed Appointments</h2>
-  <table>
-    <tr>
-      <th>Appointment ID</th>
-      <th>Patient ID</th>
-      <th>Date and Time</th>
-      <th>Reason</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Appointment ID</th>
+        <th>Patient ID</th>
+        <th>Date and Time</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($completed)) {
         $appID = $row["app_ID"];
@@ -350,17 +397,21 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <div>
   <h2>Cancelled Appointments</h2>
-  <table>
+  <table class="table-template">
+    <thead>
     <tr>
       <th>Appointment ID</th>
       <th>Patient ID</th>
       <th>Date and Time</th>
       <th>Reason</th>
     </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($cancelled)) {
         $appID = $row["app_ID"];
@@ -377,6 +428,7 @@
     <?php
       }
     ?>
+    </tbody>
     </table>
 </div>
 <?php

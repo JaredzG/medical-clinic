@@ -59,14 +59,17 @@
 ?>
 <div>
   <h2>Offices</h2>
-  <table>
-    <tr>
-      <th>Office ID</th>
-      <th>Department</th>
-      <th>Location</th>
-      <th>Phone Number</th>
-      <th>Action</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Office ID</th>
+        <th>Department</th>
+        <th>Location</th>
+        <th>Phone Number</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result)) {
         $offID = $row["office_ID"];
@@ -125,6 +128,7 @@
     <?php
       }
     ?>
+    </tbody>
   </table>
 </div>
 <?php

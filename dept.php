@@ -18,12 +18,15 @@
 </div>
 <div>
   <h2>Departments</h2>
-  <table>
-    <tr>
-      <th>Number</th>
-      <th>Name</th>
-      <th>Action</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result)) {
         $depnum = $row["department_number"];
@@ -58,6 +61,7 @@
     <?php
       }
     ?>
+    </tbody>
   </table>
 </div>
 <?php

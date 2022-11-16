@@ -10,14 +10,17 @@
 ?>
 <h2>Medicine</h2>
 <div class='med-table'>
-  <table>
-    <tr>
-      <th>Medicine ID</th>
-      <th>Brand</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Action</th>
-    </tr>
+  <table class="table-template">
+    <thead>
+      <tr>
+        <th>Medicine ID</th>
+        <th>Brand</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($result)) {
         $medID = $row["med_ID"];
@@ -56,6 +59,7 @@
     <?php
       }
     ?>
+    </tbody>
   </table>
 </div>
 <?php
