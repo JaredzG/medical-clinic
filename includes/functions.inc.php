@@ -809,7 +809,7 @@ function getDoctors($conn) {
 
 function getPatientID($conn, $username) {
   
-  $sql = "SELECT patient_ID FROM Patient WHERE pat_user = (SELECT user_ID FROM User_Account WHERE username = ?) AND deleted_flag = false;";
+  $sql = "SELECT patient_ID FROM Patient WHERE pat_user IN (SELECT user_ID FROM User_Account WHERE username = ?) AND deleted_flag = false;";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: ../appointment.php?error=getpatstmtfailed");
