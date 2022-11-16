@@ -36,19 +36,22 @@
   <h2>Doctor Report</h2>
   <table>
     <tr>
+     <th>Dep Name</th>
       <th>Doctor F Name</th>
       <th>Doctor L Name</th>
       <th>Appointment Count</th>
       <th>Revenue</th>
     </tr>
     <?php
-      while ($row = mysqli_fetch_assoc($result1)) {
+      while ($row = mysqli_fetch_assoc($scheduled)) {
+        $dname = $row["dep_name"];
         $fname = $row["f_name"];
         $lname = $row["l_name"];
-        $counter = $row["AppointmentCount"];
-        $revenue = $row["AppointmentRevenue"];
+        $counter = $row["Total_Appointments"];
+        $revenue = $row["Unique_Patients"];
     ?>
         <tr>
+          <td><?php echo $dname?></td> 
           <td><?php echo $fname?></td>
           <td><?php echo $lname?></td>
           <td><?php echo $counter?></td>

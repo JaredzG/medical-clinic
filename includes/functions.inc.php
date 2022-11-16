@@ -1320,7 +1320,7 @@ function viewPatientDues($conn, $mindate, $maxdate, $lname, $bdate) {
 
 /*****************DOCTOR REPORT*****************/
 function viewDoctorReport($conn, $mindate, $maxdate) {
-  $sql = "SELECT Doctor.f_name, Doctor.l_name, COUNT(Transactions.amount) AS AppointmentCount, SUM(Transactions.amount) AS AppointmentRevenue FROM Doctor LEFT JOIN Appointment ON Doctor.doctor_ID = Appointment.doctor_ID LEFT JOIN Transactions ON Appointment.payment_ID = Transactions.transaction_ID AND Transactions.amount > 0 AND (Transactions.transaction_date BETWEEN ? and ?) GROUP BY Doctor.doc_ID;";
+  $sql = "SELECT Department.dep_name, Doctor.f_name, Doctor.l_name, COUNT(Appointment.app_ID) AS Total_Appointments, COUNT(DISTINCT Appointment.patient_ID) AS Unique_Patients FROM Department INNER JOIN Doctor ON Department.department_number = Doctor.dep_num AND Doctor.deleted_flag = 0 LEFT JOIN Appointment ON Doctor.doc_ID = Appointment.doctor_ID AND (Appointment.date_time BETWEEN ? AND ?) GROUP BY Doctor.f_name;";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=gettransactionsfailed");
