@@ -102,6 +102,9 @@
       ?>
       <form action='/medical-clinic/transactions.php' method='post'>
         <div class='form-element'>
+          <label for='fname'>Patient First Name</label>
+          <input type='text' name='fname' id='fname' placeholder='First Name' required/>
+        </div>
         <div class='form-element'>
           <label for='lname'>Patient Last Name</label>
           <input type='text' name='lname' id='lname' placeholder='Last Name' required/>
@@ -125,13 +128,14 @@
    if (isset($_POST["submit"])) {
     $mindate = $_POST["mindate"];
     $maxdate = $_POST["maxdate"];
+    $fname = $_POST["fname"];
     $lname = $_POST["lname"];
     $bdate = $_POST["bdate"];
     if ($_SESSION["userRole"] === 'admin') {
       $result = viewTransactions($conn, $mindate, $maxdate);
     }
   else if ($_SESSION["userRole"] === 'receptionist') {
-      $result = viewPatientDues($conn, $mindate, $maxdate, $lname, $bdate);
+      $result = viewPatientDues($conn, $mindate, $maxdate, $fname, $lname, $bdate);
     }
     $revenue = 0.00;
 ?>
