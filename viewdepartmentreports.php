@@ -33,7 +33,7 @@
       $scheduled = viewDepartmentReports($conn, $mindate, $maxdate);
 ?>
 <div>
-  <h2>Doctor Report</h2>
+  <h2>Department Report</h2>
   <table class="table-template">
     <thead>
       <tr>
