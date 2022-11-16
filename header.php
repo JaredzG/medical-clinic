@@ -37,6 +37,7 @@
                 echo "<li><a href='transactions.php'>Transactions</a></li>";
                 echo "<li><a href='medrecord.php'>Medical Records</a></li>";
                 echo "<li><a href='viewdoctorreports.php'>Doctor Reports</a></li>";
+                echo "<li><a href='viewdepartmentreports.php'>Department Reports</a></li>";
                 echo "<li><a href='users.php'>Users</a></li>";
                 echo "<li><a href='referrals.php'>Referrals</a></li>";
               }

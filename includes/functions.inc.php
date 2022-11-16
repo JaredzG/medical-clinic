@@ -1332,6 +1332,20 @@ function viewDoctorReport($conn, $mindate, $maxdate) {
   return $result;
 }
 
+/*****************DEPARTMENT REPORT*****************/
+function viewDepartmentReports($conn, $mindate, $maxdate) {
+  $sql = "SELECT Department.dep_name, COUNT(DISTINCT Doctor.doc_ID) AS Doctor_Count,COUNT(Appointment.app_ID) AS Total_Appointments, COUNT(DISTINCT Appointment.patient_ID) AS Unique_Patients, IFNULL(SUM(Transaction.amount), 0) AS REVENUE FROM Department LEFT JOIN Doctor ON Department.department_number = Doctor.dep_num AND Doctor.deleted_flag = 0 LEFT JOIN Appointment ON Doctor.doc_ID = Appointment.doctor_ID AND (Appointment.date_time BETWEEN ? AND ?) LEFT JOIN Transaction ON Appointment.payment_ID = Transaction.app_ID AND (Transaction.amount > 0) GROUP BY Department.dep_name;";
+  $stmt = mysqli_stmt_init($conn);
+  if (!mysqli_stmt_prepare($stmt, $sql)) {
+    header("location: transactions.php?error=gettransactionsfailed");
+    exit();
+  }
+  mysqli_stmt_bind_param($stmt, "ss", $mindate, $maxdate);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  return $result;
+}
+
 /*****************MEDICAL RECORD*****************/
 function getMedicalRecordFromUserID($conn, $userID) {
   
