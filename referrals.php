@@ -91,9 +91,9 @@
     </tr>
       <?php
         while ($row2 = mysqli_fetch_assoc($result2)) {
-          $refPrimaryID = intval($row3["primary_ID"]);
-          $refPatID = intval($row3["pat_ID"]);
-          $refSpecID = intval($row3["specialist_ID"]);
+          $refPrimaryID = intval($row2["primary_ID"]);
+          $refPatID = intval($row2["pat_ID"]);
+          $refSpecID = intval($row2["specialist_ID"]);
           if ($_SESSION["userRole"] === 'receptionist' || $_SESSION["userRole"] === 'admin') {
             $primDocName = getDocNameFromDocID($conn, $refPrimaryID);
             $primDocNameRow = mysqli_fetch_assoc($primDocName);
