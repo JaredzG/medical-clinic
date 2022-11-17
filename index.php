@@ -3,7 +3,6 @@
 ?>
 <div class='welcome'>
   <h1>Welcome to the Medical Clinic</h1>
-  <img src="download.jpeg"></img>
   <?php
   if (isset($_SESSION["username"])) {
       echo '<p>Hello there, '.$_SESSION["username"].'</p>';
