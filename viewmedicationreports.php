@@ -21,7 +21,7 @@
     <thead>
       <tr>
         <th>Medicine Name</th>
-        <th>People Count</th>
+        <th>Patient Count</th>
         <th>Average Height</th>
         <th>Average Weight</th>
         <th>Average Age</th>
