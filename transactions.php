@@ -3,7 +3,8 @@
   require_once 'includes/dbh.inc.php';
   require_once 'includes/functions.inc.php';
   if ($_SESSION["userRole"] === 'patient') {
-    $patID = getPatientID($conn, $_SESSION["username"]);
+    $result = getPatientID($conn, $_SESSION["username"]);
+    $patID = mysqli_fetch_assoc($result);
     $balance = getBalance($conn, $patID["patient_ID"]);
     $result = viewAllPatientUnpaidAppointments($conn, $patID["patient_ID"]);
 ?>
@@ -140,9 +141,9 @@
     $lname = $_POST["lname"];
     $bdate = $_POST["bdate"];
     if ($_SESSION["userRole"] === 'admin') {
-      $result = viewTransactions($conn, $mindate, $maxdate);
+      $result = viewTransactions($conn, $mindate, $maxdate, $fname, $lname, $bdate);
     }
-  else if ($_SESSION["userRole"] === 'receptionist') {
+    else if ($_SESSION["userRole"] === 'receptionist') {
       $result = viewPatientDues($conn, $mindate, $maxdate, $fname, $lname, $bdate);
     }
     $revenue = 0.00;
@@ -164,7 +165,7 @@
         <?php
           while ($row = mysqli_fetch_assoc($result)) {
             $transID = $row["transaction_ID"];
-            $patientID = $row["patient_ID"];
+            $patientID = $row["patient_ID"];  
             $paydate = $row["transaction_date"];
             $amount = $row["amount"];
             if ($amount < 0) {
@@ -190,11 +191,11 @@
         </tbody>
       </table>
 <?php
-    }
-    echo '<p>Dues: $'.sprintf('%.2f', $dues).'</p>';
-    if ($_SESSION["userRole"] === 'admin') {
-      echo '<p>Outstanding Costs: $'.sprintf('%.2f', $dues - $revenue).'</p>';
-      echo '<p>Revenue: $'.sprintf('%.2f', $revenue).'</p>';
+      echo '<p>Dues: $'.sprintf('%.2f', $dues).'</p>';
+      if ($_SESSION["userRole"] === 'admin') {
+        echo '<p>Outstanding Costs: $'.sprintf('%.2f', $dues - $revenue).'</p>';
+        echo '<p>Revenue: $'.sprintf('%.2f', $revenue).'</p>';
+      }
     }
   }
 ?>

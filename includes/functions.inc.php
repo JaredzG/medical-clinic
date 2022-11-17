@@ -82,7 +82,8 @@ function createUser($conn, $email, $phonenum, $username, $password) {
   $_SESSION["userID"] = $userExists["user_ID"];
   $_SESSION["userRole"] = $userExists["user_role"];
   $_SESSION["username"] = $userExists["username"];
-  header("location: ../info.php");
+  $status = "success";
+  header("location: ../info.php?status=".$status);
   exit();
 }
 /*****************LOGIN*****************/
@@ -302,8 +303,8 @@ function createPatient($conn, $fname, $mname, $lname, $ssn, $sex, $bdate, $ethni
   } 
   mysqli_stmt_bind_param($stmt9, "ii", $patID, $doctors[0]);
   mysqli_stmt_execute($stmt9);
-
-  header("location: ../emergencycontact.php?patID=".$patID);
+  $status = "success";
+  header("location: ../emergencycontact.php?patID=".$patID."&status=".$status);
   exit();
 }
 
@@ -818,8 +819,7 @@ function getPatientID($conn, $username) {
   mysqli_stmt_bind_param($stmt, "s", $username);
   mysqli_stmt_execute($stmt);
   $result1 = mysqli_stmt_get_result($stmt);
-  $row1 = mysqli_fetch_assoc($result1);
-  return $row1;
+  return $result1;
 }
 
 function getOfficeID($conn, $doctor) {
@@ -857,7 +857,8 @@ function getNurseID($conn, $doctor) {
 function createAppointment($conn, $date, $doctor, $reason, $username) {
   
   //Step 1: Get Patient ID from querying Patient using $username
-  $row1 = getPatientID($conn, $username);
+  $result1 = getPatientID($conn, $username);
+  $row1 = mysqli_fetch_assoc($result1);
   // //Step 2: Get Office ID from querying Doctor_Works_In_Office using $doctor
   $row2 = getOfficeID($conn, $doctor);
   //Step 3: Get Nurse ID from querying Nurse_Works_With_Doctor using $doctor
@@ -942,8 +943,8 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
     }
     mysqli_stmt_bind_param($stmt6, "ii", $row3["nurse_ID"], $row5["app_ID"]);
     mysqli_stmt_execute($stmt6);
-
-    header("location: ../viewappointments.php");
+    $status = "success";
+    header("location: ../appointment.php?status=".$status);
     exit();
   }
 }
@@ -1292,27 +1293,29 @@ function viewPatientTransactions($conn, $patID, $mindate, $maxdate) {
 }
 
 //         MODIFY FOR NEW WAY OF KEEPING TRACK OF TRANSACTIONS
-function viewTransactions($conn, $mindate, $maxdate) {
-  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?);";
+function viewTransactions($conn, $mindate, $maxdate, $fname, $lname, $bdate) {
+  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND patient_ID IN (SELECT patient_ID FROM Patient WHERE f_name = ? AND l_name = ? AND deleted_flag = false AND patient_ID IN (SELECT pat_ID FROM Medical_Record WHERE b_date = ?));";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=gettransactionsfailed");
     exit();
   }
-  mysqli_stmt_bind_param($stmt, "ss", $mindate, $maxdate);
+  mysqli_stmt_bind_param($stmt, "sssss", $mindate, $maxdate, $fname, $lname, $bdate);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   return $result;
 }
 
-function viewPatientDues($conn, $mindate, $maxdate, $lname, $bdate) {
-  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE l_name = ? AND deleted_flag = false);";
+function viewPatientDues($conn, $mindate, $maxdate, $fname, $lname, $bdate) {
+  $mindate = str_replace("T", " ", $mindate);
+  $maxdate = str_replace("T", " ", $maxdate);
+  $sql = "SELECT * FROM Transaction WHERE (transaction_date BETWEEN ? AND ?) AND amount > 0 AND payment_ID IS NULL AND patient_ID = (SELECT patient_ID FROM Patient WHERE f_name = ? AND l_name = ? AND deleted_flag = false AND patient_ID = (SELECT pat_ID FROM Medical_Record WHERE b_date = ?));";
   $stmt = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt, $sql)) {
     header("location: transactions.php?error=gettransactionsfailed");
     exit();
   }
-  mysqli_stmt_bind_param($stmt, "ssss", $mindate, $maxdate, $lname, $bdate);
+  mysqli_stmt_bind_param($stmt, "sssss", $mindate, $maxdate, $fname, $lname, $bdate);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   return $result;
@@ -1599,6 +1602,8 @@ function createEmergencyContact($conn, $patID, $fname, $mname, $lname, $relation
   }
   mysqli_stmt_bind_param($stmt, "issssss", $patID, $fname, $mname, $lname, $relationship, $phonenum, $sex);
   mysqli_stmt_execute($stmt);
+  $status = "success";
+  header("location: ../index.php?status=".$status);
   header("location: ../index.php");
   exit();
 }

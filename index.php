@@ -11,5 +11,8 @@
   ?>
 </div>
 <?php
+  if ($_REQUEST["status"] === 'success') {
+    echo '<script>alert("Account Created")</script>';
+  }
   include_once 'footer.php';
 ?>

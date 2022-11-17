@@ -1,5 +1,7 @@
 <?php
   include_once 'header.php';
+  require_once "includes/dbh.inc.php";
+  require_once "includes/functions.inc.php";
 ?>
 <div class='view-app-form'>
   <h2>View Appointments</h2>
@@ -18,8 +20,6 @@
   </form>
 </div>
 <?php
-  require_once "includes/dbh.inc.php";
-  require_once "includes/functions.inc.php";
   if (isset($_POST["submit"]) || ($_REQUEST["mindate"] && $_REQUEST["maxdate"])) {
     if (isset($_POST["submit"])) {
       $mindate = $_POST["mindate"];
@@ -30,7 +30,9 @@
       $maxdate = $_REQUEST["maxdate"];
     }
     if ($_SESSION["userRole"] === 'patient') {
-      $patID = getPatientID($conn, $_SESSION["username"]);
+      $result = getPatientID($conn, $_SESSION["username"]);
+      $row = mysqli_fetch_assoc($result);
+      $patID = $row["patient_ID"];
       $result1 = viewPatientScheduledApps($conn, $patID, $mindate, $maxdate);
       $result2 = viewPatientApprovedApps($conn, $patID, $mindate, $maxdate);
       $result3 = viewPatientUnpaidAppointments($conn, $patID, $mindate, $maxdate);

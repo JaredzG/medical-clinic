@@ -156,6 +156,9 @@
         if ($_GET["error"] === "invalidzip") {
           echo "<p>Enter a proper zip code.</p>";
         }
+        if ($_REQUEST["status"] === 'success') {
+          echo '<script>alert("User Registered")</script>';
+        }
       }
     ?>
 </div> 

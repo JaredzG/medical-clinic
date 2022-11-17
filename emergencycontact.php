@@ -46,5 +46,8 @@
       </div>
     </form>
 <?php
+        if ($_REQUEST["status"] === 'success') {
+          echo '<script>alert("Patient Info Submitted")</script>';
+        }
   include_once 'footer.php';
 ?>

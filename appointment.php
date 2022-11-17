@@ -49,5 +49,8 @@
   if ($_REQUEST["error"] === 'createappfailed') {
     echo '<p>Could not create appointment. No referral with specialist was found.</p>';
   }
+  else if ($_REQUEST["status"] === 'success') {
+    echo '<script>alert("Appointment Created")</script>';
+  }
   include_once 'footer.php';
 ?>
