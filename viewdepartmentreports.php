@@ -37,10 +37,10 @@
   <table class="table-template">
     <thead>
       <tr>
-        <th>Dep Name</th>
+        <th>Department</th>
         <th>Doctor Count</th>
-        <th>TOTAL APPOINTMENT COUNT</th>
-        <th>UNIQUE PATIENT COUNT</th>
+        <th>Total Appointments</th>
+        <th>Admitted Patients</th>
         <th>Revenue</th>
       </tr>
     </thead>
