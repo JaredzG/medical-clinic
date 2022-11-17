@@ -175,7 +175,7 @@
   <table class="table-template">
     <thead>
       <tr>
-        <th>Patient ID</th>
+        <th>Patient Name</th>
         <th>Date and Time</th>
         <th>Reason</th>
       </tr>
@@ -184,11 +184,14 @@
       <?php
         while ($row = mysqli_fetch_assoc($doccomapps)) {
           $patID = $row["patient_ID"];
+          $result = getPatientNameFromPatientID($conn, $patID);
+          $resultRow = mysqli_fetch_assoc($result);
+          $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
           $dateTime = $row["date_time"];
           $reason = $row["reason"];
           ?>
           <tr>
-            <td><?php echo $patID?></td>
+            <td><?php echo $patName?></td>
             <td><?php echo $dateTime?></td>
             <td><?php echo $reason?></td>
           </tr>
@@ -203,7 +206,7 @@
     <table class="table-template">
       <thead>
         <tr>
-          <th>Patient ID</th>
+          <th>Patient Name</th>
           <th>Date and Time</th>
           <th>Reason</th>
         </tr>
@@ -212,11 +215,14 @@
         <?php
         while ($row = mysqli_fetch_assoc($docincapps)) {
           $patID = $row["patient_ID"];
+          $result = getPatientNameFromPatientID($conn, $patID);
+          $resultRow = mysqli_fetch_assoc($result);
+          $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
           $dateTime = $row["date_time"];
           $reason = $row["reason"];
           ?>
           <tr>
-            <td><?php echo $patID?></td>
+            <td><?php echo $patName?></td>
             <td><?php echo $dateTime?></td>
             <td><?php echo $reason?></td>
           </tr>
@@ -237,7 +243,7 @@
   <table class="table-template">
     <thead>
       <tr>
-        <th>Patient ID</th>
+        <th>Patient Name</th>
         <th>Date and Time</th>
         <th>Reason</th>
       </tr>
@@ -246,11 +252,14 @@
     <?php
       while ($row = mysqli_fetch_assoc($nursecomapps)) {
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
         ?>
         <tr>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
         </tr>
@@ -265,7 +274,7 @@
     <table class="table-template">
       <thead>
         <tr>
-          <th>Patient ID</th>
+          <th>Patient Name</th>
           <th>Date and Time</th>
           <th>Reason</th>
         </tr>
@@ -274,11 +283,14 @@
       <?php
       while ($row = mysqli_fetch_assoc($nurseincapps)) {
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
         ?>
         <tr>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
         </tr>
@@ -302,7 +314,7 @@
     <thead>
       <tr>
         <th>Appointment ID</th>
-        <th>Patient ID</th>
+        <th>Patient Name</th>
         <th>Date and Time</th>
         <th>Reason</th>
         <th>Actions</th>
@@ -311,15 +323,17 @@
     <tbody>
     <?php
       while ($row = mysqli_fetch_assoc($scheduled)) {
-        debug_to_console($row);
         $appID = $row["app_ID"];
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
     ?>
         <tr>
           <td><?php echo $appID?></td>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
           <td>
@@ -339,7 +353,7 @@
     <thead>
     <tr>
       <th>Appointment ID</th>
-      <th>Patient ID</th>
+      <th>Patient Name</th>
       <th>Date and Time</th>
       <th>Reason</th>
       <th>Actions</th>
@@ -350,12 +364,15 @@
       while ($row = mysqli_fetch_assoc($approved)) {
         $appID = $row["app_ID"];
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
     ?>
         <tr>
           <td><?php echo $appID?></td>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
           <td>
@@ -375,7 +392,7 @@
     <thead>
       <tr>
         <th>Appointment ID</th>
-        <th>Patient ID</th>
+        <th>Patient Name</th>
         <th>Date and Time</th>
         <th>Reason</th>
       </tr>
@@ -385,12 +402,15 @@
       while ($row = mysqli_fetch_assoc($completed)) {
         $appID = $row["app_ID"];
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
     ?>
         <tr>
           <td><?php echo $appID?></td>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
         </tr>
@@ -406,7 +426,7 @@
     <thead>
     <tr>
       <th>Appointment ID</th>
-      <th>Patient ID</th>
+      <th>Patient Name</th>
       <th>Date and Time</th>
       <th>Reason</th>
     </tr>
@@ -416,12 +436,15 @@
       while ($row = mysqli_fetch_assoc($cancelled)) {
         $appID = $row["app_ID"];
         $patID = $row["patient_ID"];
+        $result = getPatientNameFromPatientID($conn, $patID);
+        $resultRow = mysqli_fetch_assoc($result);
+        $patName = $resultRow["f_name"].' '.$resultRow["l_name"];
         $dateTime = $row["date_time"];
         $reason = $row["reason"];
     ?>
         <tr>
           <td><?php echo $appID?></td>
-          <td><?php echo $patID?></td>
+          <td><?php echo $patName?></td>
           <td><?php echo $dateTime?></td>
           <td><?php echo $reason?></td>
         </tr>
