@@ -1,103 +1,105 @@
-div.welcome{
-  color: #F2EEE5;
-	text-align: center;
-	overflow: hidden;
-  background-color:#172941;
+div.welcome {
+  color: #f2eee5;
+  text-align: center;
+  overflow: hidden;
+  background-color: #172941;
   font-family: serif;
 }
 
-a:link { /* unvisited link */
+a:link {
+  /* unvisited link */
   color: gray;
 }
 
-
-a:visited { /* visited link */
+a:visited {
+  /* visited link */
   color: gray;
 }
 
-
-a:hover { /* mouse over link */
+a:hover {
+  /* mouse over link */
   color: darkgray;
 }
 
-a:active { /* selected link */
+a:active {
+  /* selected link */
   color: gray;
 }
 
 img {
-	float: left;
-	height: 40px;
-	width: 40px;
-	margin-left: 10px;
-	margin-top: 3px;
-	vertical-align: middle;
+  float: left;
+  height: 40px;
+  width: 40px;
+  margin-left: 10px;
+  margin-top: 3px;
+  vertical-align: middle;
 }
 
 ul {
-	display: table; /* center home/login/signup */
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 0px;
-	margin-bottom: 0px;
+  display: table; /* center home/login/signup */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
   vertical-align: middle;
   list-style-type: none;
   padding: 0;
   overflow: hidden;
 }
 
-
-
 ul.header {
-	/*text stuff for header*/
+  /*text stuff for header*/
   display: block;
-	margin-left: auto;
-	margin-right: auto;
-	background-color:#172940;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #172940;
 }
 
-ul.navigation{
-	background-color: #ffffff;
+ul.navigation {
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 ul.footer {
-	/*text stuff for footer*/
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	background-color:#7A8CA4;
-  clear:both;
-  margin-top:180px;
+  /*text stuff for footer*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #7a8ca4;
+  clear: both;
+  margin-top: 180px;
   height: 180px;
-  font-size:18px;
+  font-size: 18px;
   font-family: Arial;
   font-style: italic;
-  font-weight:bold;
+  font-weight: bold;
 }
 
-
-p.cleft{
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+p.cleft {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   float: left;
-	color: #e1e1e1;
+  color: #e1e1e1;
 }
-p.cright{
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+p.cright {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   float: right;
-	color: #e1e1e1;
+  color: #e1e1e1;
 }
 
 li {
-	margin-left: 10px;
-	margin-right: 10px;
-	background-color: #ffffff;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #ffffff;
   float: left;
-	list-style-type: none;
+  list-style-type: none;
 }
 
 li a {
@@ -112,11 +114,11 @@ li a:hover {
   background-color: #c8c8c8;
 }
 
-h2{
-  text-align:center;
-  color:#172940;
+h2 {
+  text-align: center;
+  color: #172940;
 }
-.signup-form{
+.signup-form {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -126,17 +128,17 @@ h2{
   font-family: sans-serif;
   font-size: 16;
 }
-input{
+input {
   border: none;
   background: #f2f2f2;
   padding: 10px;
   border-radius: 3px;
   width: 250px;
-  outline:none;
+  outline: none;
   margin-top: 20px;
 }
-.login-form{
-  width:100vw;
+.login-form {
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -145,29 +147,27 @@ input{
   font-family: sans-serif;
   font-size: 16;
 }
-button{
-  
- display: inline-block;
- outline: none;
- cursor: pointer;
- border-radius: 3px;
- font-size: 14px;
- font-weight: 500;
- line-height: 16px;
- padding: 2px 16px;
- height: 30px;
- margin-top: 10px;
- min-width: 60px;
- min-height: 32px;
- border: none;
- color: #fff;
- background-color: #172940;
- transition: background-color .17s ease,color .17s ease;
-                
+button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  height: 30px;
+  margin-top: 10px;
+  min-width: 60px;
+  min-height: 32px;
+  border: none;
+  color: #fff;
+  background-color: #172940;
+  transition: background-color 0.17s ease, color 0.17s ease;
 }
-p.headtitle{
+p.headtitle {
   color: white;
-  text-align:center;
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
 }
@@ -193,7 +193,7 @@ p.headtitle{
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .table-template thead tr {
