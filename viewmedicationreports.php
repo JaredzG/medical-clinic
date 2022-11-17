@@ -17,7 +17,6 @@
       $scheduled = viewMedicationReport($conn, $mindate, $maxdate);
 ?>
 <div>
-  <h2>Medication Report</h2>
   <table class="table-template">
     <thead>
       <tr>
