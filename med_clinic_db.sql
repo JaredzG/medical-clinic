@@ -436,6 +436,8 @@ BEGIN
  IF (new.doctor_ID NOT IN (SELECT specialist_ID FROM Referral WHERE (pat_ID = new.patient_ID AND deleted_flag = 0))
 	AND new.doctor_ID <> (SELECT prim_doc_ID FROM Patient WHERE Patient.patient_ID = new.patient_ID)) THEN
 		SET new.patient_ID = NULL;
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Appointment not made. No referral with specialist found.';
 END IF;
 END$$
 

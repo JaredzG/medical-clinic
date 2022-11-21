@@ -859,21 +859,29 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
   //Step 1: Get Patient ID from querying Patient using $username
   $result1 = getPatientID($conn, $username);
   $row1 = mysqli_fetch_assoc($result1);
+  $patientID = $row1['patient_ID'];
   // //Step 2: Get Office ID from querying Doctor_Works_In_Office using $doctor
   $row2 = getOfficeID($conn, $doctor);
+  $officeID = $row2['office_ID'];
   //Step 3: Get Nurse ID from querying Nurse_Works_With_Doctor using $doctor
   $row3 = getNurseID($conn, $doctor);
   //Step 4: Parse $date to remove the 'T' and replace it with a ' ' (space)
   $date = str_replace("T", " ", $date);
   //Step 5a: Insert appointment with date_time, reason, office_ID, doctor_ID, patient_ID
+
   $sql4 = "INSERT INTO Appointment (date_time, reason, office_ID, doctor_ID, patient_ID) VALUES (?, ?, ?, ?, ?);";
   $stmt4 = mysqli_stmt_init($conn);
   if (!mysqli_stmt_prepare($stmt4, $sql4)) {
-    header("location: ../appoinment.php?error=addappstmtfailed");
+    header("location: ../appointment.php?error=addappstmtfailed");
     exit();
   }
   mysqli_stmt_bind_param($stmt4, "ssiii", $date, $reason, $row2["office_ID"], $doctor, $row1["patient_ID"]);
   mysqli_stmt_execute($stmt4);
+
+  if (!mysqli_query($conn, 'INSERT INTO Appointment (date_time, reason, office_ID, doctor_ID, patient_ID) VALUES ("'.$date.'", "'.$reason.'", '.$officeID.', '.$doctor.', '.$patientID.')')) {
+    header("location: ../appointment.php?error=".mysqli_error($conn));
+    exit();
+  }
 
   $sql8 = "SELECT app_ID FROM Appointment WHERE patient_ID = ? AND date_time = ?;";
   $stmt8 = mysqli_stmt_init($conn);

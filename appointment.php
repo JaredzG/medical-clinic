@@ -46,8 +46,8 @@
     ?>
 </div> 
 <?php
-  if ($_REQUEST["error"] === 'createappfailed') {
-    echo '<p>Could not create appointment. No referral with specialist was found.</p>';
+  if (isset($_REQUEST["error"])) {
+    echo '<script>alert("'.$_REQUEST["error"].'")</script>';
   }
   else if ($_REQUEST["status"] === 'success') {
     echo '<script>alert("Appointment Created")</script>';
