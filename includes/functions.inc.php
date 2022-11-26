@@ -1647,7 +1647,7 @@ function getUserInfo($conn, $userID, $userRole) {
     return $result;
   }
   else if ($userRole === 'doctor') {
-    $sql = "SELECT * FROM doctor WHERE doc_user = ? AND deleted_flag = false;";
+    $sql = "SELECT * FROM Doctor WHERE doc_user = ? AND deleted_flag = false;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
       header("location: emergencycontact.php?error=getuserinfofailed");
