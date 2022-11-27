@@ -89,12 +89,14 @@
             <td><?php echo $empName?></td>
             <td><?php echo $role?></td>
           </tr>
+          <?php
+          }
+          ?>
           </tbody>
       </table>
     </div>
   <?php
     }
-  }
   else {
     debug_to_console('nah');
   }
