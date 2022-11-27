@@ -19,7 +19,7 @@
        <div>
         <ul class='header'>
 					 <p class='cleft'>Cell: 123-456-7891</p>
-					 <p class='cright'>Email address</p>
+					 <p class='cright'>G3MedClinic@gmail.com</p>
            <p class='headtitle'>G3 Medical Clinic</p>
 				 </ul>
          <ul class='navigation'>

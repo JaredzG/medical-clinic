@@ -29,7 +29,7 @@
         $userID = $row["user_ID"];
         $userRole = $row["user_role"];
         $result2 = getUserInfo($conn, $userID, $userRole);
-        if ($result2 !== 'admin') {
+        if ($userRole !== 'admin') {
           $row2 = mysqli_fetch_assoc($result2);
           $fname = $row2["f_name"];
           $lname = $row2["l_name"];
