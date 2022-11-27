@@ -25,11 +25,11 @@
         <th>Average Height</th>
         <th>Average Weight</th>
         <th>Average Age</th>
-        <th>American Indian%</th>
-        <th>Asian%</th>
-        <th>Black%</th>
-        <th>Native Hawaiian%</th>
-        <th>White%</th>
+        <th>American Indian or Alaska Native</th>
+        <th>Asian</th>
+        <th>Black or African American</th>
+        <th>Native Hawaiian or Other Pacific Islander</th>
+        <th>White</th>
       </tr>
     </thead>
     <tbody>
@@ -63,6 +63,7 @@
     ?>
     </tbody>
     </table>
+    <p>*last columns indicate population distribution of medicine users by race/ethnicity</p>
 </div>
 <?php
     }
