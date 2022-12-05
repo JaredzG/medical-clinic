@@ -8,7 +8,7 @@ Inside the ‘includes’ folder, functions.inc.php is used to hold all of the f
 
 ## User Accounts
 
-###Admin:
+### Admin:
 
 Username: admin1
 Password: adminpass
