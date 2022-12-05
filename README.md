@@ -11,25 +11,31 @@ Inside the ‘includes’ folder, functions.inc.php is used to hold all of the f
 ### Admin:
 
 Username: admin1
+
 Password: adminpass
 
 ### Doctor:	
 
 Username: doc1/doc2/…
+
 Password: docpass	
 
 ### Receptionist:
 
 Username: rec1
+
 Password: recpass
 
 ### Patient: 
 
 Username: pat1/pat2/…
+
 Password: patpass
 
 ### Nurse: 
+
 Username: nurse1/nurse2/…
+
 Password: nursepass
 
 ## How to Schedule an Appointment
@@ -59,39 +65,50 @@ Select the report you wish to view in the navigation bar. For the Doctor and Dep
 ### ADMIN
 
 Add, Remove, and Update: Departments, Clinics, Offices, Employees, Patients
+
 View Medicine, Medical Records
+
 View Doctor, Department and Medication Reports
 
 ### DOCTOR
 
-i.	View Medical Records, Patients, and scheduled appointments.
-ii.	Add, Remove, and Update: Specialist referrals, Medication
-iii.	Modify information in settings (Name, Credentials, Address, etc.)
-iv. 	Modify Medical Records
+View Medical Records, Patients, and scheduled appointments.
+
+Add, Remove, and Update: Specialist referrals, Medication
+
+Modify information in settings (Name, Credentials, Address, etc.)
+
+Modify Medical Records
 
 ### NURSE
 
 View Appointments
+
 Modify Personal Info
 
 ### RECEPTIONIST
 
- i.    Read, Write, and Modify: Appointments.
-Ii.    View: Transactions, Referrals.
-iii.   Modify Personal Info
+Read, Write, and Modify: Appointments
+
+View: Transactions, Referrals
+
+Modify Personal Info
 
 ### PATIENT
 
 Schedule and view appointments
+
 Modify account information (Name, address, delete account, etc.)
+
 View Medical Record, Balance, Transactions
+
 Create an account
 
 ##The semantic constraints which are implemented as triggers
 
 ### Trigger 1
 
- When patient’s appointment is completed by receptionist, their account will be charged $50, thus increasing their calculated balance by $50
+When patient’s appointment is completed by receptionist, their account will be charged $50, thus increasing their calculated balance by $50
  
 ### Trigger 2
 
@@ -104,14 +121,17 @@ When a patient tries to schedule an appointment with a specialist doctor without
 ### Doctor Report
 
 Displays how many appointments have been completed and patients treated per doctor for a given range of time/date. This report might be used by Supervisors to keep track of doctor’s quota requirements.
+
 located in medical-clinic/includes/functions.inc.php line 1332
 
 ### Department Report
 
 Displays how many doctors are working in a department, total appointments made in that department, newly admitted patient count, and revenue for a given range of time/date. This report might be useful for Department Administrators to evaluate whether they should allocate more doctors to a department based on the amount of patients and revenue.
+
 located in medical-clinic/includes/functions.inc.php line 1346
 
 ### Medication Report
 
 Displays percentages of medication users categorized by ethnicity as well as patient count, average patient weight, height, and age per medication. This report might be useful for scientists conducting research on a given medication. 
+
 located in medical-clinic/includes/functions.inc.php line 1360
