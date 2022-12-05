@@ -6,7 +6,7 @@ The .php files not in the ‘includes’ folder hold the code for the web pages 
 The .inc.php files found in the ‘includes’ folder are not shown to the end user. They hold code that processes internal information for the correlated web pages that are shown to the end user. These files make use of the functions.inc.php and dbh.inc.php files also found in the ‘includes’ folder.
 Inside the ‘includes’ folder, functions.inc.php is used to hold all of the functions that the web app uses to process information. The dbh.inc.php file establishes and defines the connection to the web app database.
 
-User Accounts
+User Accounts. 
 Admin:
 Username: admin1
 Password: adminpass
