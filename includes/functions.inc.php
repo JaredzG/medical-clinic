@@ -876,9 +876,7 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
     exit();
   }
   mysqli_stmt_bind_param($stmt4, "ssiii", $date, $reason, $row2["office_ID"], $doctor, $row1["patient_ID"]);
-  mysqli_stmt_execute($stmt4);
-
-  if (!mysqli_query($conn, 'INSERT INTO Appointment (date_time, reason, office_ID, doctor_ID, patient_ID) VALUES ("'.$date.'", "'.$reason.'", '.$officeID.', '.$doctor.', '.$patientID.')')) {
+  if (!mysqli_stmt_execute($stmt4)) {
     header("location: ../appointment.php?error=".mysqli_error($conn));
     exit();
   }
