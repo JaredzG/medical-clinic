@@ -876,7 +876,13 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
     exit();
   }
   mysqli_stmt_bind_param($stmt4, "ssiii", $date, $reason, $row2["office_ID"], $doctor, $row1["patient_ID"]);
-  if (!mysqli_stmt_execute($stmt4)) {
+  try {
+    $appointment = mysqli_stmt_execute($stmt4);
+  }
+  catch (Exception $e) {
+  }
+
+  if (!$appointment) {
     header("location: ../appointment.php?error=".mysqli_error($conn));
     exit();
   }
@@ -920,15 +926,26 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
       mysqli_stmt_execute($stmt4b);
     }
     //Step 5d: Insert into Doctor_Maintains_Medical_Record
-    $sql4d = "INSERT INTO Doctor_Maintains_Medical_Record (pat_ID, doc_ID) VALUES (?, ?);";
+    $sql4d = "SELECT * FROM Doctor_Maintains_Medical_Record WHERE doc_ID = ? and pat_ID = ? AND deleted_flag = false;";
     $stmt4d = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt4d, $sql4d)) {
-      header("location: ../info.php?error=insdocforpatfailed");
+      header("location: ../appoinment.php?error=patdocstmtfailed");
       exit();
-    } 
-    mysqli_stmt_bind_param($stmt4d, "ii", $row1["patient_ID"], $doctor);
+    }
+    mysqli_stmt_bind_param($stmt4d, "ii", $doctor, $row1["patient_ID"]);
     mysqli_stmt_execute($stmt4d);
-
+    $result7 = mysqli_stmt_get_result($stmt4d);
+    $row7 = mysqli_fetch_assoc($result7);
+    if (!$row7) {
+      $sql4e = "INSERT INTO Doctor_Maintains_Medical_Record (pat_ID, doc_ID) VALUES (?, ?);";
+      $stmt4e = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt4e, $sql4e)) {
+        header("location: ../info.php?error=insdocforpatfailed");
+        exit();
+      } 
+      mysqli_stmt_bind_param($stmt4e, "ii", $row1["patient_ID"], $doctor);
+      mysqli_stmt_execute($stmt4e);
+    }
     //Step 6: Select appointment ID from querying Appointment using patient_ID and date_time
     $sql5 = "SELECT app_ID FROM Appointment WHERE patient_ID = ? AND date_time = ?;";
     $stmt5 = mysqli_stmt_init($conn);
@@ -941,14 +958,16 @@ function createAppointment($conn, $date, $doctor, $reason, $username) {
     $result5 = mysqli_stmt_get_result($stmt5);
     $row5 = mysqli_fetch_assoc($result5);
     //Step 7: Insert into Nurse_Works_On_Appointment using nurse_ID and app_ID
-    $sql6 = "INSERT INTO Nurse_Works_On_Appointment (nurse_ID, appointment_ID) VALUES (?, ?);";
-    $stmt6 = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt6, $sql6)) {
-      header("location: ../appointment.php?error=addnwastmtfailed");
-      exit();
+    if ($row3["nurse_ID"]) {
+      $sql6 = "INSERT INTO Nurse_Works_On_Appointment (nurse_ID, appointment_ID) VALUES (?, ?);";
+      $stmt6 = mysqli_stmt_init($conn);
+      if (!mysqli_stmt_prepare($stmt6, $sql6)) {
+        header("location: ../appointment.php?error=addnwastmtfailed");
+        exit();
+      }
+      mysqli_stmt_bind_param($stmt6, "ii", $row3["nurse_ID"], $row5["app_ID"]);
+      mysqli_stmt_execute($stmt6);
     }
-    mysqli_stmt_bind_param($stmt6, "ii", $row3["nurse_ID"], $row5["app_ID"]);
-    mysqli_stmt_execute($stmt6);
     $status = "success";
     header("location: ../appointment.php?status=".$status);
     exit();
