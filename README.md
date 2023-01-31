@@ -1,5 +1,5 @@
 # Medical Clinic Web App
-Medical Clinic Link: http://ec2-34-229-11-238.compute-1.amazonaws.com/index.php
+Medical Clinic Link: http://ec2-54-160-218-37.compute-1.amazonaws.com
 
 Of the Code Files that are found on the GitHub Repository page for this project:
 The .php files not in the ‘includes’ folder hold the code for the web pages that are actually shown to the end user
